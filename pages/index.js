@@ -3,11 +3,11 @@ import AElf from "aelf-sdk";
 import { useEffect, useState } from "react";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import detectProvider from "@portkey/detect-provider";
+import SmartContract from "../src/SmartContract";
 
 export default function Home() {
   const [provider, setProvider] = useState(null);
   const [userAddress, setUserAddress] = useState(null);
-  console.log(userAddress);
   const init = async () => {
     try {
       setProvider(await detectProvider());
@@ -15,27 +15,27 @@ export default function Home() {
       console.log(error, "=====error");
     }
   };
-
   const connect = async () => {
     try {
       const accounts = await provider?.request({
         method: MethodsBase.REQUEST_ACCOUNTS,
       });
-      const address = accounts["AELF"][0];
-      setUserAddress(address); // Assuming the first account is the user's address
-      localStorage.setItem("userAddress", address);
+      console.log(accounts)
+      const address = accounts["tDVW"][0];
+      setUserAddress(address); // Assuming the first account is the user's addres
     } catch (error) {
       console.error("Error connecting:", error);
     }
   };
 
   useEffect(() => {
-    if (!provider) init();
-    const storedUserAddress = localStorage.getItem("userAddress");
-    if (storedUserAddress) {
-      setUserAddress(storedUserAddress);
+    if (!provider) {
+        init()
+    } else {
+        connect()
     }
-  }, [provider, userAddress]);
+    
+  }, [provider]);
 
   if (!provider) return <>Provider not found.</>;
 
@@ -54,10 +54,8 @@ export default function Home() {
       >
         Hello world
       </Button>
-      <Button onClick={connect} variant="contained">
-        Connect
-      </Button>
-      {userAddress && <p>User ID: {userAddress}</p>}
+      {userAddress && <p>{userAddress}</p>}
+      <SmartContract provider={provider} />
     </div>
   );
 }
