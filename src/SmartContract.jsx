@@ -1,6 +1,7 @@
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import useSmartContract from "./useSmartContract";
 import { useState } from "react";
+import Button from "@mui/material/Button";
 
 function Pie({
   number,
@@ -75,7 +76,7 @@ function SmartContract({ provider }) {
 
   return (
     <div>
-      <button onClick={onClick}>Get Character</button>
+      <Button onClick={onClick} variant = "contained">Get Character</Button>
       <div style={{ display: "flex" }}>
         <div>
           Health:
