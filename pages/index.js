@@ -3,6 +3,7 @@ import AElf from "aelf-sdk";
 import { useEffect, useState } from "react";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import detectProvider from "@portkey/detect-provider";
+import SmartContract from "../src/SmartContract";
 
 export default function Home() {
   const [provider, setProvider] = useState(null);
@@ -54,6 +55,7 @@ export default function Home() {
         Hello world
       </Button>
       {userAddress && <p>{userAddress}</p>}
+      <SmartContract provider={provider} />
     </div>
   );
 }
