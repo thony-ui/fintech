@@ -33,7 +33,7 @@ function Mint() {
   return (
 
     <div>
-      <Grid container spacing={4} sx={{ my: 12, textAlign: "center" }} className="text-center px-[10px] max-w-[1000px] md:mx-auto">
+      <Grid container spacing={4} sx={{ my: 12, textAlign: "center" }} className="text-center px-[10px]">
         {/* Picture and Details side by side on larger screens */}
         <Grid item xs={12} md={6}>
           <Card sx={{ height: "100%", border: "none"}}>
