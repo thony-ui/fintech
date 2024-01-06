@@ -23,6 +23,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import { FaSpinner } from "react-icons/fa";
+import Footer from "./Footer";
 
 function PendingBy() {
     const [users, setUsers] = useState([]);
@@ -86,6 +87,7 @@ function PendingBy() {
             </Grid>
           </Container>
         )}
+        <Footer />
       </div>
     )
 }

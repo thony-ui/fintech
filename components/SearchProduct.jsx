@@ -23,6 +23,7 @@ import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ResponsiveAppBar from './Navbar';
 import Footer from './Footer';
+import { useRouter } from 'next/router';
 
 function Copyright() {
     return (
@@ -43,6 +44,7 @@ function Copyright() {
   const defaultTheme = createTheme();
   
   export function Album() {
+    const router = useRouter()
     return (
       <ThemeProvider theme={defaultTheme}>
         <CssBaseline />
@@ -78,8 +80,7 @@ function Copyright() {
                 spacing={2}
                 justifyContent="center"
               >
-                <Button variant="contained">Main call to action</Button>
-                <Button variant="outlined">Secondary action</Button>
+                <Button variant="contained" onClick = {() => router.push("/Mint")}>Mint NFT</Button>
               </Stack>
             </Container>
           </Box>
@@ -107,9 +108,8 @@ function Copyright() {
                         NFT Description
                       </Typography>
                     </CardContent>
-                    <CardActions>
-                      <Button size="small">View</Button>
-                      <Button size="small">Edit</Button>
+                    <CardActions className='flex flex-col items-center'>
+                      <Button size="small" onClick = {() => router.push("/productDisplay")}>View</Button>
                     </CardActions>
                   </Card>
                 </Grid>

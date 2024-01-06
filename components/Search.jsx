@@ -23,8 +23,10 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import Footer from "./Footer"
 
 function Search() {
+  
   const router = useRouter();
   const [users, setUsers] = useState([]);
   const [filterUser, setFilterUser] = useState([]);
@@ -111,6 +113,7 @@ function Search() {
           
         </Container>
       )}
+      <Footer />
     </div>
   );
 }

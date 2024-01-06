@@ -23,8 +23,10 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import { FaSpinner } from "react-icons/fa";
+import Footer from "./Footer";
 
 function PendingFor() {
+   
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "user"), (snapshot) => {
@@ -86,6 +88,7 @@ function PendingFor() {
           </Grid>
         </Container>
       )}
+      <Footer />
     </div>
   )
 }
