@@ -16,11 +16,14 @@
     "@mui/styled-engine-sc": "^6.0.0-alpha.11",
     "@portkey/detect-provider": "^1.1.1-alpha.1",
     "@portkey/did-ui-react": "^1.5.4-alpha.1",
+    "@reduxjs/toolkit": "^2.0.1",
     "aelf-sdk": "^3.4.3",
     "firebase": "^10.7.1",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-icons": "^4.12.0",
+    "react-redux": "^9.0.4",
     "styled-components": "^6.1.6"
   },
   "devDependencies": {

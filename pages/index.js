@@ -16,9 +16,16 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
+import { useDispatch, useSelector } from "react-redux";
+import { logIn } from "../store/userSlice";
+import { selectUser } from "../store/userSlice";
+
 
 
 export default function Home() {
+  const user = useSelector(selectUser);
+  console.log(user)
+  const dispatch = useDispatch();
   const [provider, setProvider] = useState(null);
   const [userAddress, setUserAddress] = useState(null);
   const init = async () => {
@@ -34,8 +41,11 @@ export default function Home() {
         method: MethodsBase.REQUEST_ACCOUNTS,
       });
       const address = accounts["tDVW"][0];
-      console.log(accounts, "=====accounts");
-      setUserAddress(address); // Assuming the first account is the user's addres
+      setUserAddress(address)
+      dispatch(logIn({
+        id:address,
+      }))
+      ; // Assuming the first account is the user's addres
     } catch (error) {
       console.error("Error connecting:", error);
     }
@@ -51,10 +61,6 @@ export default function Home() {
 
   if (!provider) return <>Provider not found.</>;
 
-  const aelf = new AElf(
-    new AElf.providers.HttpProvider("http://127.0.0.1:1235")
-  );
-
   return (
     <div>
       <h1>Hello</h1>
@@ -68,23 +74,6 @@ export default function Home() {
       </Button>
       {userAddress && <p>{userAddress}</p>}
       <SmartContract provider={provider} />
-      <PortkeyAssetProvider pin="112358" originChainId="AELF">
-      <Asset
-        onLifeCycleChange={lifeCycle => {
-          console.log(lifeCycle, 'onLifeCycleChange');
-        }}
-      />
-    </PortkeyAssetProvider>
-      <Button
-        onClick={async () => {
-          await addDoc(collection(db, "user"), {
-            message:"lol"
-          });
-        }}
-        className="cursor-pointer"
-      >
-        Add
-      </Button>
     </div>
   );
 }
