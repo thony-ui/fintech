@@ -3,7 +3,9 @@ import SearchProduct from '../../components/SearchProduct';
 
 const index = () => {
   return (
-    <div>Search</div>
+    <div>
+        <SearchProduct />
+    </div>
   )
 }
 
