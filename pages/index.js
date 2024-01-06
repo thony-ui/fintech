@@ -4,6 +4,17 @@ import { useEffect, useState } from "react";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import detectProvider from "@portkey/detect-provider";
 import SmartContract from "../src/SmartContract";
+import { db } from "../firebase";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  addDoc,
+  setDoc,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 
 export default function Home() {
   const [provider, setProvider] = useState(null);
@@ -20,7 +31,6 @@ export default function Home() {
       const accounts = await provider?.request({
         method: MethodsBase.REQUEST_ACCOUNTS,
       });
-      console.log(accounts)
       const address = accounts["tDVW"][0];
       setUserAddress(address); // Assuming the first account is the user's addres
     } catch (error) {
@@ -30,11 +40,10 @@ export default function Home() {
 
   useEffect(() => {
     if (!provider) {
-        init()
+      init();
     } else {
-        connect()
+      connect();
     }
-    
   }, [provider]);
 
   if (!provider) return <>Provider not found.</>;
@@ -56,6 +65,16 @@ export default function Home() {
       </Button>
       {userAddress && <p>{userAddress}</p>}
       <SmartContract provider={provider} />
+      <Button
+        onClick={async () => {
+          await addDoc(collection(db, "user"), {
+            message:"lol"
+          });
+        }}
+        className="cursor-pointer"
+      >
+        Add
+      </Button>
     </div>
   );
 }
