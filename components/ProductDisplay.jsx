@@ -4,22 +4,22 @@ import CardActions from '@mui/material/CardActions';
 
 function ProductDisplay() {
   return (
-    <Grid container spacing={4} sx={{ mx: 'auto', my: 12, width: 1000, height: 500 }}>
+    <Grid container spacing={4} sx={{ my: 12, textAlign: "center" }} className="text-center px-[10px]">
       {/* Left side - Product Images */}
-      <Grid item xs={4}>
-        <Card sx={{ width: '100%', height: '100%', flex: 1}}>
-          <CardMedia
-            component="div"
-            sx={{ width: '100%', height: '100%', paddingTop: '100%' }} // Set the aspect ratio for the image
-            image="https://source.unsplash.com/random?wallpapers"
-            alt="Product Image"
-          />
-        </Card>
-      </Grid>
+      <Grid item xs={12} md={6}>
+          <Card sx={{ height: "75%", border: "none"}}>
+            <CardMedia
+              component="div"
+              sx={{ width: "100%", height: "100%", paddingTop: "100%" }}
+              image="https://source.unsplash.com/random?wallpapers"
+              alt="Product Image"
+            />
+          </Card>
+        </Grid>
 
       {/* Right side - Product Details */}
-      <Grid item xs={8}>
-        <Card sx={{ height: '100%', border: 'none', pl: 2}}>
+      <Grid item xs={12} md = {6}>
+        <Card sx={{ height: '75%', border: 'none'}}>
           <CardContent>
             <Typography
                   component="h2"
@@ -27,6 +27,7 @@ function ProductDisplay() {
                   align="left"
                   color="000000"
                   fontWeight='bold'
+                  className='text-center'
                 >
                   NFT Name
                 </Typography>
@@ -37,7 +38,7 @@ function ProductDisplay() {
             Price
           </Typography>
         </CardContent>
-        <CardActions>
+        <CardActions className='flex flex-col items-center'>
         <Button variant="outlined" color="secondary" sx={{ marginLeft: '8px' }}>Transfer NFT</Button>
       </CardActions>
         </Card>
