@@ -58,10 +58,10 @@ function Copyright() {
               marginTop: 6,
             }}
           >
-            <Container maxWidth="sm">
+            <Grid container spacing={4} sx={{ mt:2,mx: {xs:0, md:"auto"},maxWidth:1000,justifyContent: "center", px: { xs: 2, md: 10 }}}>
               <Typography
-                component="h2"
-                variant="h2"
+                component="h4"
+                variant="h4"
                 align="center"
                 color="text.primary"
                 gutterBottom
@@ -70,7 +70,7 @@ function Copyright() {
               >
                 Your NFT Collection
               </Typography>
-              <Typography variant="h5" align="center" color="text.secondary" paragraph>
+              <Typography variant="h5" align="center" color="text.secondary" paragraph sx = {{textAlign: "center"}}>
               Unveil the beauty of your NFTs with ease, track ownership details, 
               and revel in the creativity of your digital treasures on our user-friendly platform.
               </Typography>
@@ -82,7 +82,7 @@ function Copyright() {
               >
                 <Button variant="contained" onClick = {() => router.push("/Mint")}>Mint NFT</Button>
               </Stack>
-            </Container>
+              </Grid>
           </Box>
           <Container sx={{ py: 8 }} maxWidth="md">
             {/* End hero unit */}

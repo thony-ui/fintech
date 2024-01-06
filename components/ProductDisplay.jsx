@@ -4,10 +4,10 @@ import CardActions from '@mui/material/CardActions';
 
 function ProductDisplay() {
   return (
-    <Grid container spacing={4} sx={{ my: 12, textAlign: "center" }} className="text-center px-[10px]">
+    <Grid container spacing={4} sx={{ my: 12, textAlign: "center", px: {xs:2, md:10}}}>
       {/* Left side - Product Images */}
       <Grid item xs={12} md={6}>
-          <Card sx={{ height: "75%", border: "none"}}>
+          <Card sx={{ height: "100%", border: "none"}}>
             <CardMedia
               component="div"
               sx={{ width: "100%", height: "100%", paddingTop: "100%" }}
@@ -19,7 +19,7 @@ function ProductDisplay() {
 
       {/* Right side - Product Details */}
       <Grid item xs={12} md = {6}>
-        <Card sx={{ height: '75%', border: 'none'}}>
+        <Card sx={{ height: '100%', border: 'none'}}>
           <CardContent>
             <Typography
                   component="h2"
