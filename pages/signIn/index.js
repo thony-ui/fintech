@@ -4,7 +4,6 @@ import Form from '../../components/Form';
 const index = () => {
   return (
     <div>
-        Hello Jun Yu
         <Form />
     </div>
   )
