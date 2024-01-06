@@ -18,9 +18,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../store/userSlice";
 import { selectUser } from "../store/userSlice";
+import SearchProduct  from "../components/SearchProduct"
 
 
 export default function Home() {
+
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const [provider, setProvider] = useState(null);
@@ -60,17 +62,8 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Hello</h1>
-      <Button
-        variant="contained"
-        onClick={() => {
-          console.log("hello world");
-        }}
-      >
-        Hello world
-      </Button>
-      {userAddress && <p>{userAddress}</p>}
-      <SmartContract provider={provider} />
+      <SearchProduct />
+      {/* <SmartContract provider={provider} /> */}
     </div>
   );
 }
