@@ -24,7 +24,6 @@ import { selectUser } from "../store/userSlice";
 
 export default function Home() {
   const user = useSelector(selectUser);
-  console.log(user)
   const dispatch = useDispatch();
   const [provider, setProvider] = useState(null);
   const [userAddress, setUserAddress] = useState(null);

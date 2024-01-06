@@ -103,7 +103,7 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            onClick={() => router.push("/")}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -113,6 +113,7 @@ function ResponsiveAppBar() {
               color: 'inherit',
               textDecoration: 'none',
             }}
+            className="cursor-pointer"
           >
             TRUSTCHAIN LITE
           </Typography>
@@ -146,9 +147,23 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {pages.map((page, ind) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  {ind === 0 ? (
+                    <Typography
+                      textAlign="center"
+                      onClick={() => router.push("/pendingFor")}
+                    >
+                      {page}
+                    </Typography>
+                  ) : (
+                    <Typography
+                      textAlign="center"
+                      onClick={() => router.push("/pendingBy")}
+                    >
+                      {page}
+                    </Typography>
+                  )}
                 </MenuItem>
               ))}
             </Menu>
@@ -174,15 +189,31 @@ function ResponsiveAppBar() {
           </Typography>
           
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+          <div className="flex flex-row gap-3">
+              {pages.map((page, ind) => (
+                <div key={page}>
+                  {ind === 0 ? (
+                    <Typography
+                      key={page}
+                      onClick={() => router.push("/pendingFor")}
+                      sx={{ my: 2, color: "white", display: "block" }}
+                      className="cursor-pointer"
+                    >
+                      {page}
+                    </Typography>
+                  ) : (
+                    <Typography
+                      key={page}
+                      onClick={() => router.push("/pendingBy")}
+                      sx={{ my: 2, color: "white", display: "block" }}
+                      className="cursor-pointer"
+                    >
+                      {page}
+                    </Typography>
+                  )}
+                </div>
+              ))}
+            </div>
           </Box>
           <SearchBar />
           <Box sx={{ flexGrow: 0 }}>
