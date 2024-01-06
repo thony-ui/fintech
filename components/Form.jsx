@@ -29,6 +29,7 @@ import { selectUser } from "../store/userSlice";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import detectProvider from "@portkey/detect-provider";
 import { useRouter } from "next/router";
+import Alert from '@mui/material/Alert';
 
 function Copyright(props) {
   return (
@@ -89,6 +90,8 @@ export default function SignUp() {
         address: data.get("address"),
         supplier: supplier,
       });
+    } else {
+      alert("login with portkey first")
     }
   };
 
