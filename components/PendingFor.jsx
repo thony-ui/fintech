@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-duplicate-props */
 import React, { useEffect, useState } from "react";
 import NavbarWithoutSearchBar from "./NavbarWithoutSearchBar";
 import { db } from "../firebase";
@@ -23,12 +22,10 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import { FaSpinner } from "react-icons/fa";
 
-function Search() {
-  const router = useRouter();
+function PendingFor() {
   const [users, setUsers] = useState([]);
-  const [filterUser, setFilterUser] = useState([]);
-  const [inputValue, setInputValue] = useState("");
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "user"), (snapshot) => {
       try {
@@ -41,41 +38,20 @@ function Search() {
 
     return () => unsubscribe();
   }, [db]);
-
-  useEffect(() => {
-    const filter = users.filter(x => x.data()?.elfid.toLowerCase().includes(inputValue.toLowerCase()));
-    setFilterUser(filter)
-  }, [inputValue]);
-  const userId = users.map((user) => user.data().elfid);
-
+  
   return (
-    <div className="">
-      <NavbarWithoutSearchBar />
-      <form
-        className="flex flex-col items-center mt-[100px]"
-        onSubmit={(e) => {
-          e.preventDefault();
-          router.push("/user/" + inputValue);
-        }}
-      >
-        <Autocomplete
-          disablePortal
-          id="users"
-          options={userId}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="users" />}
-          inputValue={inputValue}
-          onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-          }}
-        />
-      </form>
-      {users.length === 0 ? (
+    <div>
+        <NavbarWithoutSearchBar />
+        <div className="flex gap-3 mt-[100px] items-center justify-center">
+            <p>Pending....</p>
+        <FaSpinner className="animate-spin w-[25px] h-[25px]"/>
+        </div>
+        {users.length === 0 ? (
         <div className="text-center mt-[25px]">Loading....</div>
       ) : (
-        <Container sx={{ py: 8 }} maxWidth="md">
+        <Container sx={{ py: 8 }} maxWidth="md" >
           <Grid container spacing={4}>
-            {filterUser?.map((card, ind) => (
+            {users?.map((card, ind) => (
               <Grid item xs={12} sm={6} md={4} key = {card.id}>
                 <Card
                   sx={{
@@ -102,17 +78,16 @@ function Search() {
                     </Typography>
                   </CardContent>
                   <CardActions className="flex flex-col items-center">
-                    <Button size="small">View profile</Button>
+                    <Button size="small">Accept</Button>
                   </CardActions>
                 </Card>
               </Grid>
             ))}
           </Grid>
-          
         </Container>
       )}
     </div>
-  );
+  )
 }
 
-export default Search;
+export default PendingFor
