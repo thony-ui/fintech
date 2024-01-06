@@ -3,6 +3,7 @@ import AElf from "aelf-sdk";
 import { useEffect, useState } from "react";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import detectProvider from "@portkey/detect-provider";
+import { ConfigProvider, Asset, PortkeyAssetProvider } from '@portkey/did-ui-react';
 import SmartContract from "../src/SmartContract";
 import { db } from "../firebase";
 import {
@@ -15,6 +16,7 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
+
 
 export default function Home() {
   const [provider, setProvider] = useState(null);
@@ -32,6 +34,7 @@ export default function Home() {
         method: MethodsBase.REQUEST_ACCOUNTS,
       });
       const address = accounts["tDVW"][0];
+      console.log(accounts, "=====accounts");
       setUserAddress(address); // Assuming the first account is the user's addres
     } catch (error) {
       console.error("Error connecting:", error);
@@ -65,6 +68,13 @@ export default function Home() {
       </Button>
       {userAddress && <p>{userAddress}</p>}
       <SmartContract provider={provider} />
+      <PortkeyAssetProvider pin="112358" originChainId="AELF">
+      <Asset
+        onLifeCycleChange={lifeCycle => {
+          console.log(lifeCycle, 'onLifeCycleChange');
+        }}
+      />
+    </PortkeyAssetProvider>
       <Button
         onClick={async () => {
           await addDoc(collection(db, "user"), {
