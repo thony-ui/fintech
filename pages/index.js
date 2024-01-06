@@ -7,7 +7,7 @@ export default function Home() {
     return (
         <div>
             <h1>Hello</h1>
-            <Button variant="contained" onClick = {() => {console.log("hello world")}}>Hello world</Button>;
+            <Button variant="contained" onClick = {() => {console.log("hello world")}}>Hello</Button>;
         </div>
     )
 }
