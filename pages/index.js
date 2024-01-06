@@ -72,16 +72,6 @@ export default function Home() {
       </Button>
       {userAddress && <p>{userAddress}</p>}
       <SmartContract provider={provider} />
-      <Button
-        onClick={async () => {
-          await addDoc(collection(db, "user"), {
-            message:"lol"
-          });
-        }}
-        className="cursor-pointer"
-      >
-        Add
-      </Button>
     </div>
   );
 }

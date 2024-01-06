@@ -75,14 +75,6 @@ export default function SignUp() {
       console.error("Error connecting:", error);
     }
   };
-
-  useEffect(() => {
-    if (!provider) {
-      init();
-    } else {
-      connect();
-    }
-  }, [provider]);
   const [supplier, setSupplier] = useState("");
   const handleSubmit = async (event) => {
     
@@ -99,6 +91,16 @@ export default function SignUp() {
       });
     }
   };
+
+  useEffect(() => {
+    if (!provider) {
+      init();
+    } else {
+      connect();
+    }
+  }, [provider]);
+
+  if (!provider) return <>Provider not found.</>;
 
   return (
     <ThemeProvider theme={defaultTheme}>
