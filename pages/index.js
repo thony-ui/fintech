@@ -21,6 +21,7 @@ import { selectUser } from "../store/userSlice";
 import SearchProduct  from "../components/SearchProduct"
 
 
+
 export default function Home() {
 
   const user = useSelector(selectUser);
