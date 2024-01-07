@@ -32,7 +32,7 @@ function Mint() {
   };
   return (
     <div>
-      <Grid container spacing={4} sx={{ my: 12, textAlign: "center", px: { xs: 2, md: 10 }}}>
+      <Grid container spacing={4} sx={{ my: 12, px: {xs:2}, maxWidth:900, mx:{md:"auto"}}}>
         {/* Picture and Details side by side on larger screens */}
         <Grid item xs={12} md={6}>
           <Card sx={{ height: "100%", border: "none" }}>
@@ -59,7 +59,7 @@ function Mint() {
                     Mint your NFT
                   </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sx = {{display:"flex", justifyContent:"center"}}>
                   <Button
                     component="label"
                     variant="contained"
