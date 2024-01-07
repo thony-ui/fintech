@@ -31,12 +31,11 @@ function Mint() {
     e.target.value = e.target.value.replace(/[^0-9]/g, "");
   };
   return (
-
     <div>
-      <Grid container spacing={4} sx={{ my: 12, textAlign: "center" }} className="text-center px-[10px]">
+      <Grid container spacing={4} sx={{ my: 12, px: {xs:2}, maxWidth:900, mx:{md:"auto"}}}>
         {/* Picture and Details side by side on larger screens */}
         <Grid item xs={12} md={6}>
-          <Card sx={{ height: "100%", border: "none"}}>
+          <Card sx={{ height: "100%", border: "none" }}>
             <CardMedia
               component="div"
               sx={{ width: "100%", height: "100%", paddingTop: "100%" }}
@@ -46,20 +45,21 @@ function Mint() {
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Card sx={{ height: "100%", border: "none"}}>
+          <Card sx={{ height: "100%", border: "none" }}>
             <CardContent>
-              <Typography
-                component="h3"
-                variant="h3"
-                align="left"
-                color="000000"
-                fontWeight="bold"
-                className="text-center"
-              >
-                Mint your NFT
-              </Typography>
-              <Grid container spacing={3} className="mt-2">
+              <Grid container spacing={3}>
                 <Grid item xs={12}>
+                  <Typography
+                    component="h3"
+                    variant="h3"
+                    align="center"
+                    color="000000"
+                    fontWeight="bold"
+                  >
+                    Mint your NFT
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sx = {{display:"flex", justifyContent:"center"}}>
                   <Button
                     component="label"
                     variant="contained"
@@ -80,49 +80,49 @@ function Mint() {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="Collection"
-                  label="Collection"
-                  name="Collection"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="TokenId"
-                  label="TokenId"
-                  type="text"
-                  id="TokenId"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="Quantity"
-                  label="Quantity"
-                  type="text" // Set the type to "text" to allow handling the input
-                  id="Quantity"
-                  inputProps={{
-                    inputMode: "numeric", // Inform the browser that the input will be numeric
-                    pattern: "[0-9]*", // Set a pattern to further enforce numeric input
-                    onInput: handleInputChange, // Attach the event handler to allow only numeric values
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="Description"
-                  label="Description"
-                  type="text"
-                  id="Description"
-                />
-              </Grid>
+                  <TextField
+                    required
+                    fullWidth
+                    id="Collection"
+                    label="Collection"
+                    name="Collection"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="TokenId"
+                    label="TokenId"
+                    type="text"
+                    id="TokenId"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="Quantity"
+                    label="Quantity"
+                    type="text" // Set the type to "text" to allow handling the input
+                    id="Quantity"
+                    inputProps={{
+                      inputMode: "numeric", // Inform the browser that the input will be numeric
+                      pattern: "[0-9]*", // Set a pattern to further enforce numeric input
+                      onInput: handleInputChange, // Attach the event handler to allow only numeric values
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="Description"
+                    label="Description"
+                    type="text"
+                    id="Description"
+                  />
+                </Grid>
               </Grid>
             </CardContent>
             <CardActions>

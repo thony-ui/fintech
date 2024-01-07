@@ -4,10 +4,10 @@ import CardActions from '@mui/material/CardActions';
 
 function ProductDisplay() {
   return (
-    <Grid container spacing={4} sx={{ my: 12, textAlign: "center" }} className="text-center px-[10px]">
+    <Grid container spacing={4} sx={{ my: 12, px: {xs:2}, maxWidth:900, mx:{md:"auto"}}}>
       {/* Left side - Product Images */}
       <Grid item xs={12} md={6}>
-          <Card sx={{ height: "75%", border: "none"}}>
+          <Card sx={{ height: "100%", border: "none" }}>
             <CardMedia
               component="div"
               sx={{ width: "100%", height: "100%", paddingTop: "100%" }}
@@ -19,27 +19,26 @@ function ProductDisplay() {
 
       {/* Right side - Product Details */}
       <Grid item xs={12} md = {6}>
-        <Card sx={{ height: '75%', border: 'none'}}>
+        <Card sx={{ height: '100%', border: 'none'}}>
           <CardContent>
             <Typography
                   component="h2"
                   variant="h2"
-                  align="left"
+                  align="center"
                   color="000000"
                   fontWeight='bold'
-                  className='text-center'
                 >
                   NFT Name
                 </Typography>
           <Typography variant="body2" color="text.secondary" sx={{paddingTop: 4}}>
             NFT Information, including (1) Description (2) Origin Location (3) Destination Location (4) Timeline of Product&apos;s Journey.
           </Typography>
-          <Typography fontWeight='bold' fontSize={30} color="#9c27b0" variant="body2" sx={{paddingTop: 4}}>
+          <Typography fontWeight='bold' fontSize={30} color="#9c27b0" variant="body2" sx={{paddingTop: 4}} align="center">
             Price
           </Typography>
         </CardContent>
-        <CardActions className='flex flex-col items-center'>
-        <Button variant="outlined" color="secondary" sx={{ marginLeft: '8px' }}>Transfer NFT</Button>
+        <CardActions sx = {{display: 'flex', justifyContent: 'center'}}>
+        <Button variant="outlined" color="secondary" sx={{ marginLeft: '8px'}}>Transfer NFT</Button>
       </CardActions>
         </Card>
       </Grid>
