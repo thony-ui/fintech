@@ -16,6 +16,9 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from "react-redux";
+import { logIn } from "../store/userSlice";
+import { selectUser } from "../store/userSlice";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -74,9 +77,10 @@ export function SearchBar() {
 }
 
 const pages = ['Pending for You', 'Pending by You'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Login'];
 
 function ResponsiveAppBar() {
+  const user = useSelector(selectUser);
   const router = useRouter()
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -240,11 +244,11 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              
+              <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center" onClick = {() => router.push("/signIn")}>Sign Up to start selling</Typography>
                 </MenuItem>
-              ))}
+             
             </Menu>
           </Box>
         </Toolbar>
