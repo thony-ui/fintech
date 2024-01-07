@@ -16,7 +16,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { db } from "../firebase";
 import {
   collection,
@@ -35,6 +34,7 @@ import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import detectProvider from "@portkey/detect-provider";
 import { useRouter } from "next/router";
 import Alert from '@mui/material/Alert';
+import { AlignHorizontalCenter, CheckCircle } from "@mui/icons-material";
 
 function Copyright(props) {
   return (
@@ -108,17 +108,32 @@ export default function ConfirmTransaction() {
             alignItems: "center",
           }}
         >
-          <Card>
+            <Card>
+                <CardContent>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <Typography component="div" variant="h4" color="black">
+                            Transaction Successful!
+                        </Typography>
+                        <Typography component="div" variant="h6" color="text.secondary">
+                            Your recipient has accepted the transfer.
+                        </Typography>
+                        <CheckCircle sx={{ fontSize: 200, color: 'green' }}/>
+                        <Typography component="div" variant="h6" color="text.secondary">
+                            The following transaction has been successfully processed.
+                        </Typography>
+                        <Typography component="div" variant="h6" color="text.secondary">
+                            Confirmation number: 1234567890
+                        </Typography>
 
-          <CardHeader 
-            titleTypographyProps={{ variant: "h4" }}
-            title="Confirmation"
-            subheaderTypographyProps={{ variant: "h6" }}
-            subheader="Please confirm the following details"
-            
-            />
+                        <Typography component="div" variant="h4" color="black" sx={{mt: '24px'}}>
+                            Transaction Details
+                        </Typography>
+                    </Box>
+                    
+                </CardContent>
+
               <Typography component="div" variant="h6" color="text.secondary" sx={{paddingX: '14px'}}>
-                Item to be Transfered
+                Item Transfered
               </Typography>
 
               <Box sx={{ display: 'flex', 
@@ -171,7 +186,6 @@ export default function ConfirmTransaction() {
               </Typography>
           </Card>
           
-          
           <Box
             component="form"
             noValidate
@@ -184,19 +198,10 @@ export default function ConfirmTransaction() {
               type="submit"
               fullWidth
               variant="contained"
-                className="text-black bg-green-400 hover:bg-green-700 hover:text-white"
+                className="text-black hover:text-white"
               sx={{ mt: 3, mb: 2 }}
             >
-              Confirm Transaction
-            </Button>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              className="text-black bg-gray-200 hover:text-white hover:bg-red-700"
-              sx={{ mt: 1, mb: 2 }}
-            >
-              Cancel Transaction
+              Back to home
             </Button>
           </Box>
         </Box>
