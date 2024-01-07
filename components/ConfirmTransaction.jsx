@@ -122,7 +122,7 @@ export default function ConfirmTransaction() {
               </Typography>
 
               <Box sx={{ display: 'flex', 
-                         marginX: '28px',
+                         
                          marginBottom: '14px'}}>
                 
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -144,6 +144,7 @@ export default function ConfirmTransaction() {
                     borderRadius: "10px",
                     width: "120px", // Adjust the width as desired
                     paddingTop: "120px", // Adjust the paddingTop to control the height and make it square
+                    marginRight: "10px",
                     objectFit: "cover", // Ensure the image fills the container without distortion
                   }}
                   sx={{
@@ -159,14 +160,14 @@ export default function ConfirmTransaction() {
               <Typography component="div" variant="h6" color="text.secondary" sx={{paddingX: '14px'}}>
                 Recipient Name
               </Typography>
-              <Typography component="body" variant="h5" sx={{paddingX: '28px', paddingBottom: '14px'}}>
+              <Typography component="body" variant="h6" sx={{paddingX: '14px', paddingBottom: '14px'}}>
                 Shelia Teo
               </Typography>
 
               <Typography component="div" variant="h6" color="text.secondary" sx={{paddingX: '14px'}}>
                 Recipient Address
               </Typography>
-              <Typography component="body" variant="h5" sx={{paddingX: '28px', paddingBottom: '14px'}}>
+              <Typography component="body" variant="h6" sx={{paddingX: '14px', paddingBottom: '14px'}}>
                 ELF-lorem-ipsum-dolor-sit-amet
               </Typography>
           </Card>

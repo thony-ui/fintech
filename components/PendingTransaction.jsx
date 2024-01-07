@@ -138,7 +138,7 @@ export default function PendingTransaction() {
               </Typography>
 
               <Box sx={{ display: 'flex', 
-                         marginX: '28px',
+                         justifyContent: "space-between",
                          marginBottom: '14px'}}>
                 
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -160,6 +160,7 @@ export default function PendingTransaction() {
                     borderRadius: "10px",
                     width: "120px", // Adjust the width as desired
                     paddingTop: "120px", // Adjust the paddingTop to control the height and make it square
+                    marginRight: "10px",
                     objectFit: "cover", // Ensure the image fills the container without distortion
                   }}
                   sx={{
@@ -175,14 +176,14 @@ export default function PendingTransaction() {
               <Typography component="div" variant="h6" color="text.secondary" sx={{paddingX: '14px'}}>
                 Sender Name
               </Typography>
-              <Typography component="body" variant="h5" sx={{paddingX: '28px', paddingBottom: '14px'}}>
+              <Typography component="body" variant="h6" sx={{paddingX: '14px', paddingBottom: '14px'}}>
                 Cat Chua
               </Typography>
 
               <Typography component="div" variant="h6" color="text.secondary" sx={{paddingX: '14px'}}>
                 Recipient Address
               </Typography>
-              <Typography component="body" variant="h5" sx={{paddingX: '28px', paddingBottom: '14px'}}>
+              <Typography component="body" variant="h6" sx={{paddingX: '14px', paddingBottom: '14px'}}>
                 ELF-lorem-ipsum-dolor-sit-amet-meow
               </Typography>
           </Card>
