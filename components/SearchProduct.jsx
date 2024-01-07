@@ -58,7 +58,7 @@ function Copyright() {
               marginTop: 6,
             }}
           >
-            <Grid container spacing={4} sx={{ mt:2,mx: {xs:0, md:"auto"},maxWidth:1000,justifyContent: "center", px: { xs: 2, md: 10 }}}>
+            <div className='mx-auto max-w-[1000px]'>
               <Typography
                 component="h4"
                 variant="h4"
@@ -82,7 +82,7 @@ function Copyright() {
               >
                 <Button variant="contained" onClick = {() => router.push("/Mint")}>Mint NFT</Button>
               </Stack>
-              </Grid>
+              </div>
           </Box>
           <Container sx={{ py: 8 }} maxWidth="md">
             {/* End hero unit */}
