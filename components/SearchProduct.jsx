@@ -81,6 +81,7 @@ function Copyright() {
                 justifyContent="center"
               >
                 <Button variant="contained" onClick = {() => router.push("/Mint")}>Mint NFT</Button>
+                <Button variant="outlined" color = "secondary" onClick = {() => router.push("/search")}>Search Users</Button>
               </Stack>
               </div>
           </Box>
