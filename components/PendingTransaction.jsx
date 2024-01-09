@@ -172,14 +172,12 @@ export default function PendingTransaction() {
                   alt="Product Image"
                 />
               </Box>
-
               <Typography component="div" variant="h6" color="text.secondary" sx={{paddingX: '14px'}}>
                 Sender Name
               </Typography>
               <Typography component="body" variant="h6" sx={{paddingX: '14px', paddingBottom: '14px'}}>
                 Cat Chua
               </Typography>
-
               <Typography component="div" variant="h6" color="text.secondary" sx={{paddingX: '14px'}}>
                 Recipient Address
               </Typography>
