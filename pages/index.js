@@ -3,7 +3,6 @@ import AElf from "aelf-sdk";
 import { useEffect, useState } from "react";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import detectProvider from "@portkey/detect-provider";
-import { ConfigProvider, Asset, PortkeyAssetProvider } from '@portkey/did-ui-react';
 import SmartContract from "../src/SmartContract";
 import { db } from "../firebase";
 import {
