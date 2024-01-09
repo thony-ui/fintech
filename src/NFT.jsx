@@ -143,7 +143,7 @@ function Nft({ provider, chainId, symbol }) {
                 <CardActions className="flex flex-col items-center">
                   <Button
                     size="small"
-                    onClick={() => router.push("/productDisplay")}
+                    onClick={() => router.push("/productDisplay/"+img.data?.symbol)}
                   >
                     View
                   </Button>
