@@ -33,10 +33,7 @@ import {
   
         if (result) {
           const balance = result.data?.balance;
-  
-          
           setBalance(new BigNumber(balance).dividedBy(10 ** 8).toFixed(5));
-          
         }
       } catch (error) {
         console.log(error, "====error");

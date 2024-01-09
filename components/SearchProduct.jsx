@@ -24,6 +24,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ResponsiveAppBar from './Navbar';
 import Footer from './Footer';
 import { useRouter } from 'next/router';
+import NFT from "../src/NFT"
+import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
+import detectProvider from "@portkey/detect-provider";
+import { useEffect, useState } from "react";
+
 
 function Copyright() {
     return (
@@ -45,6 +50,27 @@ function Copyright() {
   
   export function Album() {
     const router = useRouter()
+    const [provider, setProvider] = useState(null);
+
+    const init = async () => {
+      try {
+        setProvider(await detectProvider());
+      } catch (error) {
+        console.log(error, "=====error");
+      }
+    };
+  
+    const connect = async () => {
+      await provider?.request({
+        method: MethodsBase.REQUEST_ACCOUNTS,
+      });
+    };
+  
+    useEffect(() => {
+      if (!provider) init();
+    }, [provider]);
+  
+    if (!provider) return <>Provider not found.</>;
     return (
       <ThemeProvider theme={defaultTheme}>
         <CssBaseline />
@@ -85,38 +111,7 @@ function Copyright() {
               </Stack>
               </div>
           </Box>
-          <Container sx={{ py: 8 }} maxWidth="md">
-            {/* End hero unit */}
-            <Grid container spacing={4}>
-              {cards.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
-                  <Card
-                    sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                  >
-                    <CardMedia
-                      component="div"
-                      sx={{
-                        // 16:9
-                        pt: '56.25%',
-                      }}
-                      image="https://source.unsplash.com/random?wallpapers"
-                    />
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        NFT Name
-                      </Typography>
-                      <Typography>
-                        NFT Description
-                      </Typography>
-                    </CardContent>
-                    <CardActions className='flex flex-col items-center'>
-                      <Button size="small" onClick = {() => router.push("/productDisplay")}>View</Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
+          <NFT provider={provider} chainId = "tDVW" symbol = "ELF"/>
         </main>
       </ThemeProvider>
     );
