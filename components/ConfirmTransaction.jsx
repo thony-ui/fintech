@@ -196,6 +196,7 @@ export default function ConfirmTransaction() {
               variant="contained"
               className="text-black bg-gray-200 hover:text-white hover:bg-red-700"
               sx={{ mt: 1, mb: 2 }}
+              
             >
               Cancel Transaction
             </Button>
