@@ -23,9 +23,30 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Link from "@mui/material/Link";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { logIn } from "../store/userSlice";
+import { selectUser } from "../store/userSlice";
 
 function Nft({ provider, chainId, symbol }) {
   const router = useRouter()
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const [userAddress, setUserAddress] = useState(null);
+  const connect = async () => {
+    try {
+      const accounts = await provider?.request({
+        method: MethodsBase.REQUEST_ACCOUNTS,
+      });
+      const address = accounts["tDVW"][0];
+      setUserAddress(address)
+      dispatch(logIn({
+        id:address,
+      }))
+      ; // Assuming the first account is the user's addres
+    } catch (error) {
+      console.error("Error connecting:", error);
+    }
+  };
   const [imgUrl, setImgUrl] = useState([]);
   const tokenContract = useTokenContract(provider, "tDVW");
   useEffect(() => {
@@ -80,9 +101,16 @@ function Nft({ provider, chainId, symbol }) {
     return () => {
       // Cleanup logic (if needed)
     };
-  }, [tokenContract]);
+  }, [tokenContract,userAddress]);
+
+
+  useEffect(() => {
+      connect();
+  }, [provider]);
   
-  if (!provider) return null;
+
+  if (!provider) return <>Provider not found.</>;
+  
 
   return (
     <div>
