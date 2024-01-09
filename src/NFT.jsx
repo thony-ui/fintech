@@ -1,44 +1,131 @@
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useTokenContract from "./useTokenContract";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+import Link from "@mui/material/Link";
+import { useRouter } from "next/router";
 
-function Nft({ provider }) {
-  const [imgUrl, setImgUrl] = useState();
-  const tokenContract = useTokenContract(provider, "AELF");
-
-  const onClick = async () => {
-    try {
-      const accounts = await provider?.request({
-        method: MethodsBase.ACCOUNTS,
-      });
-      if (!accounts) throw new Error("No accounts");
-
-      const result = await tokenContract?.callViewMethod("GetTokenInfo", {
-        symbol: "TRUSTCHAINSUPPLYCHAIN-2",
-        owner: accounts?.AELF?.[0],
-      });
-
-      if (result) {
-        const imgUrl = result.data?.externalInfo.value.__nft_image_url;
-
-        if (imgUrl) {
-          setImgUrl(imgUrl);
+function Nft({ provider, chainId, symbol }) {
+  const router = useRouter()
+  const [imgUrl, setImgUrl] = useState([]);
+  const tokenContract = useTokenContract(provider, "tDVW");
+  useEffect(() => {
+    const onClick = async () => {
+      try {
+        const accounts = await provider?.request({
+          method: MethodsBase?.ACCOUNTS,
+        });
+  
+        if (!accounts) throw new Error("No accounts");
+        let arr = [];
+        let i = 1;
+        while (true) {
+          const result = await tokenContract?.callViewMethod("GetBalance", {
+            symbol: "TRUSTCHAINSUPPLYCHAIN-" + i,
+            owner: accounts?.[chainId]?.[0],
+          });
+          const result2 = await tokenContract?.callViewMethod("GetTokenInfo", {
+            symbol: "TRUSTCHAINSUPPLYCHAIN-" + i,
+            owner: accounts?.[chainId]?.[0],
+          });
+          if (result2?.data == null) {
+            break;
+          }
+          if (result?.data?.balance == "1") {
+            arr.push(result?.data?.symbol);
+          }
+          i += 1;
         }
+        let j = 1;
+        let ptr = 0;
+        let tokens = [];
+        while (ptr < arr.length) {
+          const result = await tokenContract?.callViewMethod("GetTokenInfo", {
+            symbol: "TRUSTCHAINSUPPLYCHAIN-" + j,
+          });
+          if (result?.data?.symbol == arr[ptr]) {
+            tokens.push(result);
+            ptr += 1;
+          }
+          j += 1;
+        }
+        console.log(tokens);
+        setImgUrl(tokens);
+      } catch (error) {
+        console.log(error, "====error");
       }
-    } catch (error) {
-      console.log(error, "====error");
-    }
-  };
-
+    };
+  
+    onClick();
+  
+    return () => {
+      // Cleanup logic (if needed)
+    };
+  }, [tokenContract]);
+  
   if (!provider) return null;
 
   return (
-    <>
-      <button onClick={onClick}>Get NFT</button>
-      <div>
-        Your NFT is: <img src={imgUrl} alt="nft" />
-      </div>
-    </>
+    <div>
+      <Container sx={{ py: 8 }} maxWidth="md">
+        {/* End hero unit */}
+        <Grid container spacing={4}>
+          {imgUrl?.map((img) => (
+            <Grid item key={img} xs={12} sm={6} md={4}>
+              <Card
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <CardMedia
+                  component="div"
+                  sx={{
+                    // 16:9
+                    pt: "56.25%",
+                  }}
+                  image={img.data?.externalInfo?.value?.__nft_image_url}
+                />
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography gutterBottom variant="p" component="h2">
+                    {img.data?.symbol}
+                  </Typography>
+                  <Typography>{img.data?.tokenName}</Typography>
+                </CardContent>
+                <CardActions className="flex flex-col items-center">
+                  <Button
+                    size="small"
+                    onClick={() => router.push("/productDisplay")}
+                  >
+                    View
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </div>
   );
 }
 

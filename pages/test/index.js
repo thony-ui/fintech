@@ -35,7 +35,7 @@ function App() {
         <Balance provider={provider} chainId="tDVW" symbol="ELF" />
         <Balance provider={provider} chainId="AELF" symbol="AELFWSFTBF" />
       </div>
-      <Nft provider={provider} />
+      <Nft provider={provider} chainId = "tDVW" symbol = "ELF"/>
     </>
   );
 }
