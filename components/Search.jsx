@@ -23,7 +23,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import Footer from "./Footer"
+import Footer from "./Footer";
+import Link from '@mui/material/Link';
 
 function Search() {
   
@@ -92,7 +93,7 @@ function Search() {
                       // 16:9
                       pt: "56.25%",
                     }}
-                    image="https://source.unsplash.com/random?wallpapers"
+                    image="https://source.unsplash.com/random"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
@@ -104,7 +105,11 @@ function Search() {
                     </Typography>
                   </CardContent>
                   <CardActions className="flex flex-col items-center">
-                    <Button size="small">View profile</Button>
+                    <Button size="small">
+                      <Link href="/confirmTransaction">
+                        Select User
+                      </Link>
+                    </Button>
                   </CardActions>
                 </Card>
               </Grid>
