@@ -2,7 +2,7 @@ import { IPortkeyProvider, IChain } from "@portkey/provider-types";
 import { useEffect, useState } from "react";
 
 function useSmartContract(provider) {
-  const [smartContract, setSmartContract] =
+  const [smartContract, setSmartContract] = 
     useState();
 
   useEffect(() => {
