@@ -26,9 +26,10 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../store/userSlice";
 import { selectUser } from "../store/userSlice";
+import { FaSpinner } from "react-icons/fa";
 
 function Nft({ provider, chainId, symbol }) {
-  const router = useRouter()
+  const router = useRouter();
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const [userAddress, setUserAddress] = useState(null);
@@ -38,11 +39,12 @@ function Nft({ provider, chainId, symbol }) {
         method: MethodsBase.REQUEST_ACCOUNTS,
       });
       const address = accounts["tDVW"][0];
-      setUserAddress(address)
-      dispatch(logIn({
-        id:address,
-      }))
-      ; // Assuming the first account is the user's addres
+      setUserAddress(address);
+      dispatch(
+        logIn({
+          id: address,
+        })
+      ); // Assuming the first account is the user's addres
     } catch (error) {
       console.error("Error connecting:", error);
     }
@@ -55,7 +57,7 @@ function Nft({ provider, chainId, symbol }) {
         const accounts = await provider?.request({
           method: MethodsBase?.ACCOUNTS,
         });
-  
+
         if (!accounts) throw new Error("No accounts");
         let arr = [];
         let i = 1;
@@ -95,62 +97,68 @@ function Nft({ provider, chainId, symbol }) {
         console.log(error, "====error");
       }
     };
-  
+
     onClick();
-  
+
     return () => {
       // Cleanup logic (if needed)
     };
-  }, [tokenContract,userAddress]);
-
+  }, [tokenContract, userAddress]);
 
   useEffect(() => {
-      connect();
+    connect();
   }, [provider]);
-  
 
   if (!provider) return <>Provider not found.</>;
-  
 
   return (
     <div>
       <Container sx={{ py: 8 }} maxWidth="md">
         {/* End hero unit */}
-        <Grid container spacing={4}>
-          {imgUrl?.map((img) => (
-            <Grid item key={img} xs={12} sm={6} md={4}>
-              <Card
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <CardMedia
-                  component="div"
+        <Grid container spacing = {4}>
+          {imgUrl.length === 0 ? (
+            <div className="flex gap-3 items-center justify-center w-full">
+              <p>Loading....</p>
+              <FaSpinner className="animate-spin w-[25px] h-[25px]" />
+            </div>
+          ) : (
+            imgUrl?.map((img, ind) => (
+              <Grid item key={ind} xs={12} sm={6} md={4}>
+                <Card
                   sx={{
-                    // 16:9
-                    pt: "56.25%",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
                   }}
-                  image={img.data?.externalInfo?.value?.__nft_image_url}
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="p" component="h2">
-                    {img.data?.symbol}
-                  </Typography>
-                  <Typography>{img.data?.tokenName}</Typography>
-                </CardContent>
-                <CardActions className="flex flex-col items-center">
-                  <Button
-                    size="small"
-                    onClick={() => router.push("/productDisplay/"+img.data?.symbol)}
-                  >
-                    View
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
+                >
+                  <CardMedia
+                    component="div"
+                    sx={{
+                      // 16:9
+                      pt: "56.25%",
+                    }}
+                    image={img.data?.externalInfo?.value?.__nft_image_url}
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography gutterBottom variant="p" component="h2">
+                      {img.data?.symbol}
+                    </Typography>
+                    <Typography>{img.data?.tokenName}</Typography>
+                  </CardContent>
+                  <CardActions className="flex flex-col items-center">
+                    <Button
+                      size="small"
+                      onClick={() =>
+                        router.push("/productDisplay/" + img.data?.symbol)
+                      }
+                    >
+                      View
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))
+          )}
         </Grid>
       </Container>
     </div>
