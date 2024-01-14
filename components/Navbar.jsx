@@ -76,7 +76,7 @@ export function SearchBar() {
   );
 }
 
-const pages = ['Pending for You', 'Pending by You'];
+const pages = ['Pending Approvals', 'Pending Proposals'];
 const settings = ['Login'];
 
 function ResponsiveAppBar() {
