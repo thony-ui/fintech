@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import detectProvider from "@portkey/detect-provider";
-import Balance from "../../src/Balance";
-import Nft from "../../src/NFT";
+import SmartContract from "../../components/SmartContract";
 
 function App() {
   const [provider, setProvider] = useState(null);
@@ -30,12 +29,7 @@ function App() {
   return (
     <>
       <button onClick={connect}>Connect</button>
-      <div style={{ display: "flex" }}>
-        <Balance provider={provider} chainId="AELF" symbol="ELF" />
-        <Balance provider={provider} chainId="tDVW" symbol="ELF" />
-        <Balance provider={provider} chainId="AELF" symbol="AELFWSFTBF" />
-      </div>
-      <Nft provider={provider} chainId = "tDVW" symbol = "ELF"/>
+      <SmartContract provider={provider} />
     </>
   );
 }
