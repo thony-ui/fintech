@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../store/userSlice";
 import { selectUser } from "../store/userSlice";
 
-const pages = ["Pending for You", "Pending by You"];
+const pages = ['Pending Approvals', 'Pending Proposals'];
 
 function ResponsiveAppBar() {
   const router = useRouter();

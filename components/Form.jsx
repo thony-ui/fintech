@@ -29,7 +29,7 @@ import { selectUser } from "../store/userSlice";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import detectProvider from "@portkey/detect-provider";
 import { useRouter } from "next/router";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
 
 function Copyright(props) {
   return (
@@ -50,7 +50,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const router = useRouter()
+  const router = useRouter();
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const [provider, setProvider] = useState(null);
@@ -78,21 +78,16 @@ export default function SignUp() {
   };
   const [supplier, setSupplier] = useState("");
   const handleSubmit = async (event) => {
-    
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if (user) {
-      router.push("/")
-      await addDoc(collection(db, "user"), {
-        elfid: user.id,
-        firstname: data.get("firstName"),
-        lastname: data.get("lastName"),
-        address: data.get("address"),
-        supplier: supplier,
-      });
-    } else {
-      alert("login with portkey first")
-    }
+    router.push("/");
+    await addDoc(collection(db, "user"), {
+      elfid: user.id,
+      firstname: data.get("firstName"),
+      lastname: data.get("lastName"),
+      address: data.get("address"),
+      supplier: supplier,
+    });
   };
 
   useEffect(() => {
