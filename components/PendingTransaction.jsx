@@ -144,13 +144,10 @@ export default function PendingTransaction() {
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   <CardContent sx={{ flex: '1 0 auto' }}>
                     <Typography component="div" variant="h6">
-                      Marigold HL Milk 1 Pallet x 100 Units
+                      Panadol ActiFast x 1 Unit
                     </Typography>
                     <Typography variant="subtitle1" color="text.secondary" component="div">
-                      Origin: Malaysia
-                    </Typography>
-                    <Typography variant="subtitle1" color="text.secondary" component="div">
-                      Destination: Singapore
+                      Origin: Ireland
                     </Typography>
                   </CardContent>
                 </Box>
@@ -168,7 +165,7 @@ export default function PendingTransaction() {
                     justifyContent: "center",
                     alignItems: "center",
                   }}
-                  image="https://source.unsplash.com/random?wallpapers"
+                  image="https://i-cf65.ch-static.com/content/dam/cf-consumer-healthcare/panadol/en_sg/adult/Singapore_Adult_product_images/Panadol_ActiFast/Panadol_Actifast-455x455.png?auto=format"
                   alt="Product Image"
                 />
               </Box>
@@ -176,10 +173,10 @@ export default function PendingTransaction() {
                 Sender Name
               </Typography>
               <Typography component="body" variant="h6" sx={{paddingX: '14px', paddingBottom: '14px'}}>
-                Cat Chua
+                Shelia Teo
               </Typography>
               <Typography component="div" variant="h6" color="text.secondary" sx={{paddingX: '14px'}}>
-                Recipient Address
+                Ireland Panadol Manufacturing Base
               </Typography>
               <Typography component="body" variant="h6" sx={{paddingX: '14px', paddingBottom: '14px'}}>
                 ELF-lorem-ipsum-dolor-sit-amet-meow
@@ -201,7 +198,9 @@ export default function PendingTransaction() {
                 className="text-black bg-green-400 hover:bg-green-700 hover:text-white"
               sx={{ mt: 3, mb: 2 }}
             >
-              Accept Transaction
+              <Link href="/">
+                Accept Transaction
+              </Link>
             </Button>
             <Button
               type="submit"

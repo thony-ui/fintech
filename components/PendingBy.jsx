@@ -126,9 +126,10 @@ function PendingBy({provider, account}) {
             </Grid>
           </Container>
         )}
+
         <Footer />
-      </div>
-    )
+        </div>
+    );
 }
 
-export default PendingBy
+export default all;

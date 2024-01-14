@@ -1,96 +1,127 @@
-import React, { useEffect, useState } from "react";
-import NavbarWithoutSearchBar from "./NavbarWithoutSearchBar";
-import { db } from "../firebase";
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  addDoc,
-  setDoc,
-  doc,
-  deleteDoc,
-} from "firebase/firestore";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import { useRouter } from "next/router";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import { FaSpinner } from "react-icons/fa";
-import Footer from "./Footer";
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import AdbIcon from '@mui/icons-material/Adb';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+import Link from '@mui/material/Link';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ResponsiveAppBar from './Navbar';
+import Footer from './Footer';
+import { useRouter } from 'next/router';
+import NFT from "../src/NFT"
+import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
+import detectProvider from "@portkey/detect-provider";
+import { useEffect, useState } from "react";
 
-function PendingFor() {
-   
-  const [users, setUsers] = useState([]);
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "user"), (snapshot) => {
-      try {
-        setUsers(snapshot.docs);
-        setFilterUser(snapshot.docs);
-      } catch (error) {
-        console.error("Error reading data:", error);
-      }
-    });
 
-    return () => unsubscribe();
-  }, [db]);
+function Copyright() {
+    return (
+      <Typography variant="body2" color="text.secondary" align="center">
+        {'Copyright © '}
+        <Link color="inherit" href="https://mui.com/">
+          Your Website
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    );
+  }
   
-  return (
-    <div>
-        <NavbarWithoutSearchBar />
-        <div className="flex gap-3 mt-[100px] items-center justify-center">
-            <p>Pending....</p>
-        <FaSpinner className="animate-spin w-[25px] h-[25px]"/>
+  const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  
+  // TODO remove, this demo shouldn't need to reset the theme.
+  const defaultTheme = createTheme();
+  
+  export function PendingByYou() {
+    const router = useRouter()
+    const [provider, setProvider] = useState(null);
+
+    const init = async () => {
+      try {
+        setProvider(await detectProvider());
+      } catch (error) {
+        console.log(error, "=====error");
+      }
+    };
+  
+    const connect = async () => {
+      await provider?.request({
+        method: MethodsBase.REQUEST_ACCOUNTS,
+      });
+    };
+  
+    useEffect(() => {
+      if (!provider) init();
+    }, [provider]);
+  
+    if (!provider) return <>Provider not found.</>;
+    return (
+      <ThemeProvider theme={defaultTheme}>
+        <CssBaseline />
+        <main>
+          {/* Hero unit */}
+          <Box
+            sx={{
+              bgcolor: 'background.paper',
+              pt: 8,
+              pb: 6,
+              marginTop: 6,
+            }}
+          >
+            <div className='mx-auto max-w-[1000px]'>
+              <Typography
+                component="h4"
+                variant="h4"
+                align="center"
+                color="text.primary"
+                gutterBottom
+                fontWeight='bold'
+                sx={{ whiteSpace: 'nowrap' }}
+              >
+                NFTs Pending For You
+              </Typography>
+              <Typography variant="h5" align="center" color="text.secondary" paragraph sx = {{textAlign: "center"}}>
+              Waiting for you to receive the product and confirm the transaction.
+              </Typography>
+              <Stack
+                sx={{ pt: 4 }}
+                direction="row"
+                spacing={2}
+                justifyContent="center"
+              >
+              </Stack>
+              </div>
+          </Box>
+          <NFT provider={provider} chainId = "tDVW" symbol = "ELF"/>
+        </main>
+      </ThemeProvider>
+    );
+  }
+
+function all() {
+    return (
+        <div>
+        <ResponsiveAppBar />
+        <PendingByYou />
+        <Footer />
         </div>
-        {users.length === 0 ? (
-        <div className="text-center mt-[25px]">Loading....</div>
-      ) : (
-        <Container sx={{ py: 8 }} maxWidth="md" >
-          <Grid container spacing={4}>
-            {users?.map((card, ind) => (
-              <Grid item xs={12} sm={6} md={4} key = {card.id}>
-                <Card
-                  sx={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <CardMedia
-                    component="div"
-                    sx={{
-                      // 16:9
-                      pt: "56.25%",
-                    }}
-                    image="https://source.unsplash.com/random?wallpapers"
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {card.data().elfid.slice(0, 6)}
-                    </Typography>
-                    <Typography>
-                      {card.data().firstname}{" "}
-                      <span>{card.data().lastname}</span>
-                    </Typography>
-                  </CardContent>
-                  <CardActions className="flex flex-col items-center">
-                    <Button size="small">Accept</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      )}
-      <Footer />
-    </div>
-  )
+    );
 }
 
-export default PendingFor
+export default all;

@@ -11,6 +11,7 @@ import CardActions from "@mui/material/CardActions";
 import useTokenContract from "../src/useTokenContract";
 import detectProvider from "@portkey/detect-provider";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
+import Link from '@mui/material/Link';
 
 function ProductDisplay({ id }) {
   const [provider, setProvider] = useState(null);
@@ -146,7 +147,9 @@ function ProductDisplay({ id }) {
               color="secondary"
               sx={{ marginLeft: "8px" }}
             >
+              <Link href="/search">
               Transfer NFT
+              </Link>
             </Button>
           </CardActions>
         </Card>
