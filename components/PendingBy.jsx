@@ -24,25 +24,64 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import { FaSpinner } from "react-icons/fa";
 import Footer from "./Footer";
+// import SmartContractView from "../src/SmartContractView";
+import useSmartContract from "../src/useSmartContract";
+import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 
-function PendingBy() {
+function PendingBy({provider, account}) {
     const [users, setUsers] = useState([]);
-    useEffect(() => {
-      const unsubscribe = onSnapshot(collection(db, "user"), (snapshot) => {
+    const [result, setResult] = useState([]);
+    console.log(provider);
+    
+    const trustchainContract = useSmartContract({provider: provider});
+
+    function contractview(method, params) {
+      return async () => {
         try {
-          setUsers(snapshot.docs);
-          setFilterUser(snapshot.docs);
+          const accounts = await provider?.request({
+            method: MethodsBase.ACCOUNTS,
+          });
+          if (!accounts) throw new Error("No accounts");
+    
+          const account = accounts?.tDVW?.[0];
+          if (!account) throw new Error("No account");
+    
+          const result = await trustchainContract?.callViewMethod(method, params);
+          console.log(result, "====result1");
+          return result;
         } catch (error) {
-          console.error("Error reading data:", error);
+          console.error(error, "====error");
         }
-      });
-  
-      return () => unsubscribe();
-    }, [db]);
+      
+      }
+    }
+    
+    useEffect(() => {
+    //   const unsubscribe = onSnapshot(collection(db, "user"), (snapshot) => {
+    //     try {
+    //       setUsers(snapshot.docs);
+    //       setFilterUser(snapshot.docs);
+    //     } catch (error) {
+    //       console.error("Error reading data:", error);
+    //     }
+    //   });
+        // console.log(account, "====account");
+        // setResult(SmartContractView(provider, "GetPendingProposals", {value: account}));
+    //   return () => unsubscribe();
+      contractview("GetPendingProposals", {value: account})().then((result) => {setResult(result)});
+      console.log(result, "====result");
+    }, [account]);
+
+    
+    if (!provider) return null;
+    // setResult(SmartContractView(provider, "GetPendingProposals", {value: account}));
+    // setResult(SmartContractView(provider)("GetPendingProposals", {value: account}));
+    // console.log(result, "====result");
     
     return (
       <div>
           <NavbarWithoutSearchBar />
+          {/* <button onClick={contractview("GetPendingProposals", {value: "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW"})}>GetPendingProposals</button> */}
           <div className="flex gap-3 mt-[100px] items-center justify-center">
               <p>Pending....</p>
           <FaSpinner className="animate-spin w-[25px] h-[25px]"/>
