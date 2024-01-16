@@ -116,7 +116,7 @@ function PendingByYou({ provider, account }) {
     };
 
     fetchData("GetPendingAcceptances", {
-      value: "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW",
+      value: account
     });
   }, [tokenContract, account]);
 

@@ -147,7 +147,7 @@ function PendingBy({ provider, account }) {
 
     fetchData("GetPendingProposals", {
       value:
-        "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW",
+        account
     });
   }, [tokenContract, account]);
 
@@ -166,7 +166,7 @@ function PendingBy({ provider, account }) {
           variant="contained"
           onClick={ContractViewButton("GetPendingProposals", {
             value:
-              "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW",
+              account
           })}
         >
           Get Pending Proposals
