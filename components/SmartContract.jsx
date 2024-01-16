@@ -62,7 +62,7 @@ function SmartContract({provider}) {
       <button onClick={contractview("GetPendingProposals", {value: "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW"})}>GetPendingProposals</button>
     </div>
     <div>
-      <button onClick={contractsend("AcceptTransfer", {tokenid: "abcd"})}>AcceptTransfer</button>
+      <button onClick={contractsend("AcceptTransfer", {tokenid: "TRUSTCHAINSUPPLYCHAIN-1"})}>AcceptTransfer</button>
     </div>
     <div>
       <button onClick={contractview("GetPendingAcceptances", {value: "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW"})}>GetPendingApprovals</button>
