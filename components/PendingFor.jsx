@@ -87,7 +87,7 @@ function PendingByYou({ provider, account }) {
                     symbol: symbol,
                   }
                 );
-
+               
                 const image = nft?.data?.externalInfo?.value?.__nft_image_url;
                 const metaData = JSON.parse(
                   nft?.data?.externalInfo?.value?.__nft_metadata
@@ -118,7 +118,7 @@ function PendingByYou({ provider, account }) {
     fetchData("GetPendingAcceptances", {
       value: account,
     });
-  }, [tokenContract, account]);
+  }, [tokenContract, account, nfts]);
 
   function contractsend(method, params) {
     return async () => {

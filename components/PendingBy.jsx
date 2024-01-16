@@ -147,7 +147,7 @@ function PendingBy({ provider, account }) {
       value:
         account
     });
-  }, [tokenContract, account]);
+  }, [tokenContract, account, nfts]);
 
   if (!provider) return null;
   // setResult(SmartContractView(provider, "GetPendingProposals", {value: account}));
