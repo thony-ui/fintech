@@ -23,14 +23,25 @@ import {
         });
         console.log(accounts, "====accounts");
         if (!accounts) throw new Error("No accounts");
-
+        console.log(accounts?.tDVW?.[0]);
         const result = await tokenContract?.callSendMethod
         ("Transfer", {
-          from: accounts?.[chainId]?.[0],
-          to: "ELF_xN3CQBD4gEX2zrdaWD7c3nEUwqxM28zLg41AanW26Mb84vhnQ_tDVW",
+          // from: "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW",
+          // from: accounts?.tDVW?.[0],
+          // to: "ELF_xN3CQBD4gEX2zrdaWD7c3nEUwqxM28zLg41AanW26Mb84vhnQ_tDVW",
+          to: accounts?.tDVW?.[0],
           symbol: symbol,
-          amount: 1,
+          amount: "1",
           memo: "transfer in demo",
+        },
+          {
+            from: "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW",
+            // from: accounts?.tDVW?.[0],
+            from: "ELF_xN3CQBD4gEX2zrdaWD7c3nEUwqxM28zLg41AanW26Mb84vhnQ_tDVW",
+            // to: accounts?.tDVW?.[0],
+            symbol: symbol,
+            amount: 1,
+            memo: "transfer in demo",
         });
         console.log(result, "====result");
   

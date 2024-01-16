@@ -31,7 +31,7 @@ function App() {
 
   return (
     <>
-      <Send provider={provider} chainId="tDVW" symbol="TRUSTCHAINSUPPLYCHAIN-4"/>
+      <Send provider={provider} chainId="tDVW" symbol="TRUSTCHAINSUPPLYCHAIN-6"/>
       <button onClick={connect}>Connect</button>
       <SmartContract provider={provider} />
     </>
