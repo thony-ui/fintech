@@ -7,7 +7,7 @@ import {
   import { useState } from "react";
   import useTokenContract from "./useTokenContract";
   
-  function Send({
+ function Send({
     provider,
     chainId,
     symbol,
