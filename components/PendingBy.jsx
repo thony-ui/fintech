@@ -142,14 +142,12 @@ function PendingBy({ provider, account }) {
       } catch (error) {
         console.error(error, "====error");
       }
-    
   }
-
     fetchData("GetPendingProposals", {
       value:
         account
     });
-  }, [tokenContract, account]);
+  }, [tokenContract, account, nfts]);
 
   if (!provider) return null;
   // setResult(SmartContractView(provider, "GetPendingProposals", {value: account}));

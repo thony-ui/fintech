@@ -62,14 +62,13 @@ function PendingByYou({ provider, account }) {
         const accounts = await provider?.request({
           method: MethodsBase.ACCOUNTS,
         });
-    
+
         if (!accounts) throw new Error("No accounts");
 
         const account = accounts?.tDVW?.[0];
         if (!account) throw new Error("No account");
 
         const result = await trustchainContract?.callViewMethod(method, params);
-        
 
         const nfts = result.data.values;
 
@@ -88,7 +87,7 @@ function PendingByYou({ provider, account }) {
                     symbol: symbol,
                   }
                 );
-
+               
                 const image = nft?.data?.externalInfo?.value?.__nft_image_url;
                 const metaData = JSON.parse(
                   nft?.data?.externalInfo?.value?.__nft_metadata
@@ -99,6 +98,7 @@ function PendingByYou({ provider, account }) {
                 dic["image"] = image;
                 dic["name"] = nft?.data?.tokenName;
                 dic["supply"] = nft?.data?.totalSupply;
+                dic["tokenId"] = nft?.data?.symbol;
                 arr.push(dic);
               } catch (error) {
                 console.error("Error fetching token info:", error);
@@ -116,9 +116,33 @@ function PendingByYou({ provider, account }) {
     };
 
     fetchData("GetPendingAcceptances", {
-      value: account
+      value: account,
     });
-  }, [tokenContract, account]);
+  }, [tokenContract, account, nfts]);
+
+  function contractsend(method, params) {
+    return async () => {
+      try {
+        const accounts = await provider?.request({
+          method: MethodsBase.ACCOUNTS,
+        });
+        if (!accounts) throw new Error("No accounts");
+
+        const account = accounts?.tDVW?.[0];
+        if (!account) throw new Error("No account");
+        console.log(params, "====params");
+        const result = await trustchainContract?.callSendMethod(
+          method,
+          params,
+          params
+        );
+        console.log(result, "====result");
+        return result;
+      } catch (error) {
+        console.error(error, "====error");
+      }
+    };
+  }
 
   if (!provider) return <>Provider not found.</>;
   return (
@@ -170,7 +194,7 @@ function PendingByYou({ provider, account }) {
             <FaSpinner className="animate-spin w-[25px] h-[25px]" />
           </div>
         ) : (
-          <Container sx={{ }} maxWidth="md">
+          <Container sx={{}} maxWidth="md">
             <Grid container spacing={4}>
               {nfts?.map((card, ind) => (
                 <Grid item xs={12} sm={6} md={4} key={ind}>
@@ -207,7 +231,14 @@ function PendingByYou({ provider, account }) {
                       </Typography>
                     </CardContent>
                     <CardActions className="flex flex-col items-center">
-                      <Button size="small">Accept</Button>
+                      <Button
+                        size="small"
+                        onClick={contractsend("AcceptTransfer", {
+                          tokenid: card["tokenId"],
+                        })}
+                      >
+                        Accept
+                      </Button>
                     </CardActions>
                   </Card>
                 </Grid>
@@ -218,9 +249,7 @@ function PendingByYou({ provider, account }) {
       </main>
       <Footer />
     </ThemeProvider>
-    
   );
 }
-
 
 export default PendingByYou;

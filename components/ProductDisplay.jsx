@@ -12,10 +12,12 @@ import useTokenContract from "../src/useTokenContract";
 import detectProvider from "@portkey/detect-provider";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import Link from '@mui/material/Link';
+import { useRouter } from "next/router";
 
 function ProductDisplay({ id }) {
+  const router = useRouter()
   const [provider, setProvider] = useState(null);
-  const [meta, setMetaData] = useState();
+  const dic = {};
   const init = async () => {
     try {
       setProvider(await detectProvider());
@@ -38,6 +40,7 @@ function ProductDisplay({ id }) {
         if (!accounts) throw new Error("No accounts");
         let i = 1;
         while (true) {
+          
           const result = await tokenContract?.callViewMethod("GetTokenInfo", {
             symbol: "TRUSTCHAINSUPPLYCHAIN-" + i,
             owner: accounts?.["tDVW"]?.[0],
@@ -58,7 +61,6 @@ function ProductDisplay({ id }) {
     };
   }, [tokenContract]);
   console.log(imgUrl);
-  const dic = {};
   const metaData = imgUrl?.data?.externalInfo?.value?.__nft_metadata;
   if (metaData) {
     const newMetaData = JSON.parse(
@@ -147,9 +149,9 @@ function ProductDisplay({ id }) {
               color="secondary"
               sx={{ marginLeft: "8px" }}
             >
-              <Link href="/search">
+              <p className="cursor-pointer" onClick = {() => router.push("/search/" + id)}>
               Transfer NFT
-              </Link>
+              </p>
             </Button>
           </CardActions>
         </Card>
