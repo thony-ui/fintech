@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import detectProvider from "@portkey/detect-provider";
 import SmartContract from "../../components/SmartContract";
+import SendNFT from "../../components/sendNFT";
+import Send from "../../src/Send";
+import Balance from "../../src/Balance";
 
 function App() {
   const [provider, setProvider] = useState(null);
@@ -28,6 +31,7 @@ function App() {
 
   return (
     <>
+      <Send provider={provider} chainId="tDVW" symbol="TRUSTCHAINSUPPLYCHAIN-4"/>
       <button onClick={connect}>Connect</button>
       <SmartContract provider={provider} />
     </>
