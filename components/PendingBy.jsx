@@ -142,9 +142,7 @@ function PendingBy({ provider, account }) {
       } catch (error) {
         console.error(error, "====error");
       }
-    
   }
-
     fetchData("GetPendingProposals", {
       value:
         account
