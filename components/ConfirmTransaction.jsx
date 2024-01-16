@@ -16,7 +16,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { db } from "../firebase";
 import {
   collection,
@@ -34,7 +34,9 @@ import { selectUser } from "../store/userSlice";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import detectProvider from "@portkey/detect-provider";
 import { useRouter } from "next/router";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
+import useTokenContract from "../src/useTokenContract";
+import useSmartContract from "../src/useSmartContract";
 
 function Copyright(props) {
   return (
@@ -54,18 +56,83 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function ConfirmTransaction() {
-  const router = useRouter()
+export default function ConfirmTransaction({provider}) {
+  const trustchainContract = useSmartContract({provider: provider});
+  function contractsend(method, params) {
+    return async () => {
+      try {
+        const accounts = await provider?.request({
+          method: MethodsBase.ACCOUNTS,
+        });
+        if (!accounts) throw new Error("No accounts");
+
+        const account = accounts?.tDVW?.[0];
+        if (!account) throw new Error("No account");
+        console.log(params, "====params");
+        const result = await trustchainContract?.callSendMethod(
+          method,
+          params,
+          params
+        );
+        console.log(result, "====result");
+        return result;
+      } catch (error) {
+        console.error(error, "====error");
+      }
+    };
+  }
+
+  const router = useRouter();
+  const { query } = useRouter();
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-  const [provider, setProvider] = useState(null);
-  const init = async () => {
-    try {
-      setProvider(await detectProvider());
-    } catch (error) {
-      console.log(error, "=====error");
+  const [account, setAccount] = useState();
+  const dic = {};
+  const [imgUrl, setImgUrl] = useState();
+  const tokenContract = useTokenContract(provider, "tDVW");
+
+  useEffect(() => {
+    const onClick = async () => {
+      try {
+        const accounts = await provider?.request({
+          method: MethodsBase?.ACCOUNTS,
+        });
+        setAccount(accounts?.["tDVW"]?.[0]);
+        if (!accounts) throw new Error("No accounts");
+        let i = 1;
+        while (true) {
+          const result = await tokenContract?.callViewMethod("GetTokenInfo", {
+            symbol: "TRUSTCHAINSUPPLYCHAIN-" + i,
+            owner: accounts?.["tDVW"]?.[0],
+          });
+          if (result.data.symbol === query.nft) {
+            setImgUrl(result);
+            break;
+          }
+          i += 1;
+        }
+      } catch (error) {
+        console.log(error, "====error");
+      }
+    };
+    onClick();
+    return () => {
+      // Cleanup logic (if needed)
+    };
+  }, [tokenContract]);
+  const metaData = imgUrl?.data?.externalInfo?.value?.__nft_metadata;
+  console.log(metaData);
+  if (metaData) {
+    const newMetaData = JSON.parse(
+      imgUrl?.data?.externalInfo?.value?.__nft_metadata
+    );
+    console.log(newMetaData);
+    for (let i = 0; i < newMetaData.length; i++) {
+      dic[newMetaData[i]["key"]] = newMetaData[i]["value"];
     }
-  };
+  }
+  console.log(dic);
+  console.log(imgUrl);
   const connect = async () => {
     try {
       const accounts = await provider?.request({
@@ -86,16 +153,8 @@ export default function ConfirmTransaction() {
     console.log("confirm transaction");
   };
 
-  useEffect(() => {
-    if (!provider) {
-      init();
-    } else {
-      connect();
-    }
-  }, [provider]);
 
   if (!provider) return <>Provider not found.</>;
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="md">
@@ -109,85 +168,113 @@ export default function ConfirmTransaction() {
           }}
         >
           <Card>
-
-          <CardHeader 
-            titleTypographyProps={{ variant: "h4" }}
-            title="Confirmation"
-            subheaderTypographyProps={{ variant: "h6" }}
-            subheader="Please confirm the following details"
-            
+            <CardHeader
+              titleTypographyProps={{ variant: "h4" }}
+              title="Confirmation"
+              subheaderTypographyProps={{ variant: "h6" }}
+              subheader="Please confirm the following details"
             />
-              <Typography component="div" variant="h6" color="text.secondary" sx={{paddingX: '14px'}}>
-                Item to be Transfered
-              </Typography>
+            <Typography
+              component="div"
+              variant="h6"
+              color="text.secondary"
+              sx={{ paddingX: "14px" }}
+            >
+              Item to be Transfered
+            </Typography>
 
-              <Box sx={{ display: 'flex', 
-                         
-                         marginBottom: '14px'}}>
-                
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <CardContent sx={{ flex: '1 0 auto' }}>
-                    <Typography component="div" variant="h6">
-                      Panadol ActiFast x 1 Unit
-                    </Typography>
-                    <Typography variant="subtitle1" color="text.secondary" component="div">
-                      Origin: Ireland
-                    </Typography>
-                  </CardContent>
-                </Box>
-                <CardMedia
-                  style={{
-                    border: "2px solid gray",
-                    borderRadius: "10px",
-                    width: "120px", // Adjust the width as desired
-                    paddingTop: "120px", // Adjust the paddingTop to control the height and make it square
-                    marginRight: "10px",
-                    objectFit: "cover", // Ensure the image fills the container without distortion
-                  }}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                  image="https://i-cf65.ch-static.com/content/dam/cf-consumer-healthcare/panadol/en_sg/adult/Singapore_Adult_product_images/Panadol_ActiFast/Panadol_Actifast-455x455.png?auto=format"
-                  alt="Product Image"
-                />
+            <Box
+              sx={{
+                display: "flex",
+
+                marginBottom: "14px",
+              }}
+            >
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <CardContent sx={{ flex: "1 0 auto" }}>
+                  <Typography component="div" variant="h6">
+                    {imgUrl?.data?.tokenName} x {imgUrl?.data?.supply} {" unit"}
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    color="text.secondary"
+                    component="div"
+                  >
+                    {dic["Country of Origin"]}
+                  </Typography>
+                </CardContent>
               </Box>
+              <CardMedia
+                style={{
+                  border: "2px solid gray",
+                  borderRadius: "10px",
+                  width: "120px", // Adjust the width as desired
+                  paddingTop: "120px", // Adjust the paddingTop to control the height and make it square
+                  marginRight: "10px",
+                  objectFit: "cover", // Ensure the image fills the container without distortion
+                }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                image={imgUrl?.data?.externalInfo?.value?.__nft_image_url}
+                alt="Product Image"
+              />
+            </Box>
 
-              <Typography component="div" variant="h6" color="text.secondary" sx={{paddingX: '14px'}}>
-                Recipient Name
-              </Typography>
-              <Typography component="body" variant="h6" sx={{paddingX: '14px', paddingBottom: '14px'}}>
-                Chua Jun Yu
-              </Typography>
+            <Typography
+              component="div"
+              variant="h6"
+              color="text.secondary"
+              sx={{ paddingX: "14px" }}
+            >
+              Recipient Name
+            </Typography>
+            <Typography
+              component="body"
+              variant="h6"
+              sx={{ paddingX: "14px", paddingBottom: "14px" }}
+            >
+              {query?.name}
+            </Typography>
 
-              <Typography component="div" variant="h6" color="text.secondary" sx={{paddingX: '14px'}}>
-                Recipient Address
-              </Typography>
-              <Typography component="body" variant="h6" sx={{paddingX: '14px', paddingBottom: '14px'}}>
-                ELF-lorem-ipsum-dolor-sit-amet
-              </Typography>
+            <Typography
+              component="div"
+              variant="h6"
+              color="text.secondary"
+              sx={{ paddingX: "14px" }}
+            >
+              Recipient Address
+            </Typography>
+            <Typography
+              component="body"
+              variant="h6"
+              sx={{ paddingX: "14px", paddingBottom: "14px" }}
+            >
+              {query?.elf_id?.slice(0, 10)}
+            </Typography>
           </Card>
-          
-          
+
           <Box
             component="form"
             noValidate
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
-            <Grid container spacing={2}>
-            </Grid>
+            <Grid container spacing={2}></Grid>
             <Button
-              type="submit"
               fullWidth
               variant="contained"
-                className="text-black bg-green-400 hover:bg-green-700 hover:text-white"
+              className="text-black bg-green-400 hover:bg-green-700 hover:text-white"
               sx={{ mt: 3, mb: 2 }}
+              onClick={contractsend("ProposeTransfer", {
+                tokenid: query?.nft,
+                to: query?.elf_id,
+                from: account,
+              })}
             >
-              <Link href="/successfulTransaction">
-                Confirm Transaction
-              </Link>
+             Confirm Transaction
             </Button>
             <Button
               type="submit"
@@ -195,7 +282,6 @@ export default function ConfirmTransaction() {
               variant="contained"
               className="text-black bg-gray-200 hover:text-white hover:bg-red-700"
               sx={{ mt: 1, mb: 2 }}
-              
             >
               Cancel Transaction
             </Button>
