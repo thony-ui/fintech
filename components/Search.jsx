@@ -26,7 +26,7 @@ import Container from "@mui/material/Container";
 import Footer from "./Footer";
 import Link from '@mui/material/Link';
 
-function Search() {
+function Search({id}) {
   
   const router = useRouter();
   const [users, setUsers] = useState([]);
@@ -105,10 +105,11 @@ function Search() {
                     </Typography>
                   </CardContent>
                   <CardActions className="flex flex-col items-center">
-                    <Button size="small">
-                      <Link href="/confirmTransaction">
+                    <Button size="small" onClick = {() => router.push({
+                      pathname: "/confirmTransaction",
+                      query: {name: card.data()?.firstname, elf_id: card.data()?.elfid, nft: id}
+                    })}>
                         Select User
-                      </Link>
                     </Button>
                   </CardActions>
                 </Card>
