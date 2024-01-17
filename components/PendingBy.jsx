@@ -37,6 +37,28 @@ function PendingBy({ provider, account }) {
   const tokenContract = useTokenContract(provider, "tDVW");
   const trustchainContract = useSmartContract({ provider: provider });
 
+  function contractview(method, params) {
+    return async () => {
+      try {
+        const accounts = await provider?.request({
+          method: MethodsBase.ACCOUNTS,
+        });
+        if (!accounts) throw new Error("No accounts");
+  
+        const account = accounts?.tDVW?.[0];
+        if (!account) throw new Error("No account");
+  
+        const result = await trustchainContract?.callViewMethod(method, params);
+        
+        console.log(result, "====result");
+        return result
+      } catch (error) {
+        console.error(error, "====error");
+      }
+    
+    }
+  }
+
   useEffect(() => {
     const fetchData = async (method, params) => {
       try {
@@ -106,6 +128,7 @@ function PendingBy({ provider, account }) {
         const result = await trustchainContract?.callViewMethod(method, params);
 
         const nfts = result.data.values;
+     
         if (nfts) {
           let arr = [];
           let i = 0;
@@ -121,10 +144,13 @@ function PendingBy({ provider, account }) {
                     symbol: symbol,
                   }
                 );
-                const moreData = await tokenContract?.callViewMethod(
+                console.log(symbol)
+                const moreData = await contractview(
                   "GetTransfer",
                   { tokenid: symbol }
-                );
+                )();
+
+                console.log(moreData)
 
                 const image = nft?.data?.externalInfo?.value?.__nft_image_url;
                 const metaData = JSON.parse(
@@ -167,7 +193,7 @@ function PendingBy({ provider, account }) {
   // setResult(SmartContractView(provider, "GetPendingProposals", {value: account}));
   // setResult(SmartContractView(provider)("GetPendingProposals", {value: account}));
   // console.log(result, "====result");
-  console.log(nfts);
+  console.log(approvedNfts)
   return (
     <div>
       <NavbarWithoutSearchBar />
@@ -192,7 +218,7 @@ function PendingBy({ provider, account }) {
             paragraph
             sx={{ textAlign: "center" }}
           >
-            Products awaiting consumer approval
+            Products waiting for the next supplier in the chain to approve
           </Typography>
           <Stack
             sx={{ pt: 4 }}

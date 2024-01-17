@@ -5,7 +5,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -37,6 +36,7 @@ import { useRouter } from "next/router";
 import Alert from "@mui/material/Alert";
 import useTokenContract from "../src/useTokenContract";
 import useSmartContract from "../src/useSmartContract";
+import Link from "next/link";
 
 function Copyright(props) {
   return (
@@ -56,8 +56,8 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function ConfirmTransaction({provider}) {
-  const trustchainContract = useSmartContract({provider: provider});
+export default function ConfirmTransaction({ provider }) {
+  const trustchainContract = useSmartContract({ provider: provider });
   function contractsend(method, params) {
     return async () => {
       try {
@@ -152,7 +152,6 @@ export default function ConfirmTransaction({provider}) {
   const handleSubmit = async (event) => {
     console.log("confirm transaction");
   };
-
 
   if (!provider) return <>Provider not found.</>;
   return (
@@ -263,28 +262,32 @@ export default function ConfirmTransaction({provider}) {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}></Grid>
-            <Button
-              fullWidth
-              variant="contained"
-              className="text-black bg-green-400 hover:bg-green-700 hover:text-white"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={contractsend("ProposeTransfer", {
-                tokenid: query?.nft,
-                to: query?.elf_id,
-                from: account,
-              })}
-            >
-             Confirm Transaction
-            </Button>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              className="text-black bg-gray-200 hover:text-white hover:bg-red-700"
-              sx={{ mt: 1, mb: 2 }}
-            >
-              Cancel Transaction
-            </Button>
+            <Link href="/pendingBy">
+              <Button
+                fullWidth
+                variant="contained"
+                className="text-black bg-green-400 hover:bg-green-700 hover:text-white"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={contractsend("ProposeTransfer", {
+                  tokenid: query?.nft,
+                  to: query?.elf_id,
+                  from: account,
+                })}
+              >
+                Confirm Transaction
+              </Button>
+            </Link>
+            <Link href="/">
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                className="text-black bg-gray-200 hover:text-white hover:bg-red-700"
+                sx={{ mt: 1, mb: 2 }}
+              >
+                Cancel Transaction
+              </Button>
+            </Link>
           </Box>
         </Box>
       </Container>
