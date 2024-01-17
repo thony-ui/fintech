@@ -14,6 +14,7 @@
     "@mui/icons-material": "^5.15.3",
     "@mui/material": "^5.15.3",
     "@mui/styled-engine-sc": "^6.0.0-alpha.11",
+    "ag-grid-react": "31.0.2",
     "@portkey/detect-provider": "^1.1.1-alpha.1",
     "@portkey/did-ui-react": "^1.5.4-alpha.1",
     "@reduxjs/toolkit": "^2.0.1",

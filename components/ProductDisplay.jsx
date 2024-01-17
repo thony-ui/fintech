@@ -13,6 +13,7 @@ import detectProvider from "@portkey/detect-provider";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import Link from '@mui/material/Link';
 import { useRouter } from "next/router";
+import TransactionDisplay from "./TransactionDisplay";
 
 function ProductDisplay({ id }) {
   const router = useRouter()
@@ -74,89 +75,92 @@ function ProductDisplay({ id }) {
   console.log(dic);
   console.log(imgUrl);
   return (
-    <Grid
-      container
-      spacing={4}
-      sx={{ my: 12, px: { xs: 2 }, maxWidth: 900, mx: { md: "auto" } }}
-    >
-      {/* Left side - Product Images */}
-      <Grid item xs={12} md={6}>
-        <Card sx={{ height: "100%", border: "none" }}>
-          <CardMedia
-            component="div"
-            sx={{ width: "100%", height: "100%", paddingTop: "100%" }}
-            image={imgUrl?.data?.externalInfo?.value?.__nft_image_url}
-            alt="Product Image"
-          />
-        </Card>
-      </Grid>
+    <>
+      <Grid
+        container
+        spacing={4}
+        sx={{ my: 12, px: { xs: 2 }, maxWidth: 900, mx: { md: "auto" } }}
+      >
+        {/* Left side - Product Images */}
+        <Grid item xs={12} md={6}>
+          <Card sx={{ height: "100%", border: "none" }}>
+            <CardMedia
+              component="div"
+              sx={{ width: "100%", height: "100%", paddingTop: "100%" }}
+              image={imgUrl?.data?.externalInfo?.value?.__nft_image_url}
+              alt="Product Image"
+            />
+          </Card>
+        </Grid>
 
-      {/* Right side - Product Details */}
-      <Grid item xs={12} md={6}>
-        <Card sx={{ height: "100%", border: "none" }}>
-          <CardContent>
-            <Typography
-              component="h2"
-              variant="h3"
-              align="center"
-              color="000000"
-              fontWeight="bold"
-            >
-              {imgUrl?.data?.tokenName}
-            </Typography>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ paddingTop: 4 }}
-            >
-              Supply: {imgUrl?.data?.totalSupply}
-            </Typography>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ paddingTop: 2 }}
-            >
-              Country Of Origin: {dic["Country of Origin"]}
-            </Typography>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ paddingTop: 2 }}
-            >
-              Maufactured Date: {dic["Manufactured Date"]}
-            </Typography>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ paddingTop: 2 }}
-            >
-              Expiry Date: {dic["Expiry Date"]}
-            </Typography>
-            <Typography
-              fontWeight="bold"
-              fontSize={30}
-              color="#9c27b0"
-              variant="body2"
-              sx={{ paddingTop: 4 }}
-              align="center"
-            >
-              Price
-            </Typography>
-          </CardContent>
-          <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              sx={{ marginLeft: "8px" }}
-            >
-              <p className="cursor-pointer" onClick = {() => router.push("/search/" + id)}>
-              Transfer NFT
-              </p>
-            </Button>
-          </CardActions>
-        </Card>
+        {/* Right side - Product Details */}
+        <Grid item xs={12} md={6}>
+          <Card sx={{ height: "100%", border: "none" }}>
+            <CardContent>
+              <Typography
+                component="h2"
+                variant="h3"
+                align="center"
+                color="000000"
+                fontWeight="bold"
+              >
+                {imgUrl?.data?.tokenName}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ paddingTop: 4 }}
+              >
+                Supply: {imgUrl?.data?.totalSupply}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ paddingTop: 2 }}
+              >
+                Country Of Origin: {dic["Country of Origin"]}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ paddingTop: 2 }}
+              >
+                Maufactured Date: {dic["Manufactured Date"]}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ paddingTop: 2 }}
+              >
+                Expiry Date: {dic["Expiry Date"]}
+              </Typography>
+              <Typography
+                fontWeight="bold"
+                fontSize={30}
+                color="#9c27b0"
+                variant="body2"
+                sx={{ paddingTop: 4 }}
+                align="center"
+              >
+                Price
+              </Typography>
+            </CardContent>
+            <CardActions sx={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                sx={{ marginLeft: "8px" }}
+              >
+                <p className="cursor-pointer" onClick = {() => router.push("/search/" + id)}>
+                Transfer NFT
+                </p>
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
       </Grid>
-    </Grid>
+      <TransactionDisplay />
+    </>
   );
 }
 export default ProductDisplay;
