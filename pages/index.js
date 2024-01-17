@@ -73,7 +73,6 @@ export default function Home() {
     <div>
       <SearchProduct />
       {/* <SmartContract provider={provider} /> */}
-      <button onClick={() => testAPI()}>CLick me</button>
     </div>
   );
 }
