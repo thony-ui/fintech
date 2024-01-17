@@ -29,10 +29,11 @@ import useTokenContract from "../src/useTokenContract";
 import useSmartContract from "../src/useSmartContract";
 import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import Stack from "@mui/material/Stack";
+import Send from "../src/Send";
 
 function PendingBy({ provider, account }) {
   const [nfts, setNfts] = useState([]);
-  const [approvedNfts, setApprovedNfts] = useState([1]);
+  const [approvedNfts, setApprovedNfts] = useState([]);
   const tokenContract = useTokenContract(provider, "tDVW");
   const trustchainContract = useSmartContract({ provider: provider });
 
@@ -167,7 +168,6 @@ function PendingBy({ provider, account }) {
   // setResult(SmartContractView(provider)("GetPendingProposals", {value: account}));
   // console.log(result, "====result");
   console.log(nfts);
-
   return (
     <div>
       <NavbarWithoutSearchBar />
@@ -203,7 +203,7 @@ function PendingBy({ provider, account }) {
         </div>
       </div>
       {nfts.length === 0 ? (
-        <div className="flex gap-3 mb-[20px] items-center justify-center">
+        <div className="flex gap-3 mb-[40px] items-center justify-center">
           <p>Pending....</p>
           <FaSpinner className="animate-spin w-[25px] h-[25px]" />
         </div>
@@ -266,7 +266,7 @@ function PendingBy({ provider, account }) {
       </div>
 
       {approvedNfts.length === 0 ? (
-        <div className="flex gap-3 mb-[20px] items-center justify-center">
+        <div className="flex gap-3 mt-[40px] items-center justify-center">
           <p>Pending....</p>
           <FaSpinner className="animate-spin w-[25px] h-[25px]" />
         </div>
@@ -306,17 +306,14 @@ function PendingBy({ provider, account }) {
                     <Typography gutterBottom variant="p" component="p">
                       Expiry Date: {card["Expiry Date"]}
                     </Typography>
-                    <Button
-                      variant="contained"
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width:"100%"
-                      }}
-                    >
-                      Send NFT
-                    </Button>
+
+                    <Send
+                      provider={provider}
+                      chainId="tDVW"
+                      symbol={card["tokenId"]}
+                      fromAddress= {card["supplier"]}
+                      toAddress= {card["consumer"]}
+                    />
                   </CardContent>
                 </Card>
               </Grid>
