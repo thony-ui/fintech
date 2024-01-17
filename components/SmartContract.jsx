@@ -56,20 +56,26 @@ function SmartContract({provider}) {
       <button onClick={contractsend("ProposeTransfer", {tokenid: "abc", to: "123", from: "456"})}>GetBalance</button>
     </div> */}
     <div>
-      <button onClick={contractview("GetTransfer", {tokenid: "TRUSTCHAINSUPPLYCHAIN-1",})}>GetTransfer</button>
+      <button onClick={contractview("GetTransfer", {tokenid: "TEST-1",})}>GetTransfer</button>
     </div>
     <div>
       <button onClick={contractview("GetPendingProposals", {value: "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW"})}>GetPendingProposals</button>
     </div>
     <div>
-      <button onClick={contractsend("AcceptTransfer", {tokenid: "TRUSTCHAINSUPPLYCHAIN-1"})}>AcceptTransfer</button>
+      <button onClick={contractsend("AcceptTransfer", {tokenid: "TEST-1"})}>AcceptTransfer</button>
     </div>
     <div>
       <button onClick={contractview("GetPendingAcceptances", {value: "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW"})}>GetPendingApprovals</button>
       {/* <button onClick={onClick}>Propose traasnfer</button> */}
     </div>
     <div>
-      <button onClick={contractsend("ProposeTransfer", {"tokenid": "abcd", "to": "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW", "from": "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW"})}>ProposeTransfer</button>
+      <button onClick={contractsend("ProposeTransfer", {"tokenid": "TEST-1", "to": "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW", "from": "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW"})}>ProposeTransfer</button>
+    </div>
+    <div>
+      <button onClick={contractview("GetApprovedProposals", {value: "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW"})}>GetApprovedTransfers</button>
+    </div>
+    <div>
+      <button onClick={contractsend("RemoveApprovedProposal", {"address": "ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW", "tokenid": "TEST-1"})}>RemoveApprovedProposal</button>
     </div>
     </>
   );
