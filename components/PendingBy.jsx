@@ -32,6 +32,7 @@ import Stack from "@mui/material/Stack";
 
 function PendingBy({ provider, account }) {
   const [nfts, setNfts] = useState([]);
+  const [approvedNfts, setApprovedNfts] = useState([1]);
   const tokenContract = useTokenContract(provider, "tDVW");
   const trustchainContract = useSmartContract({ provider: provider });
 
@@ -90,7 +91,73 @@ function PendingBy({ provider, account }) {
         console.error(error, "====error");
       }
     };
+
+    const fetchData2 = async (method, params) => {
+      try {
+        const accounts = await provider?.request({
+          method: MethodsBase.ACCOUNTS,
+        });
+        if (!accounts) throw new Error("No accounts");
+
+        const account = accounts?.tDVW?.[0];
+        if (!account) throw new Error("No account");
+
+        const result = await trustchainContract?.callViewMethod(method, params);
+
+        const nfts = result.data.values;
+        if (nfts) {
+          let arr = [];
+          let i = 0;
+
+          while (i < nfts.length) {
+            let dic = {};
+            const symbol = nfts[i];
+            if (symbol) {
+              try {
+                const nft = await tokenContract?.callViewMethod(
+                  "GetTokenInfo",
+                  {
+                    symbol: symbol,
+                  }
+                );
+                const moreData = await tokenContract?.callViewMethod(
+                  "GetTransfer",
+                  { tokenid: symbol }
+                );
+
+                const image = nft?.data?.externalInfo?.value?.__nft_image_url;
+                const metaData = JSON.parse(
+                  nft?.data?.externalInfo?.value?.__nft_metadata
+                );
+                for (let i = 0; i < metaData.length; i++) {
+                  dic[metaData[i]["key"]] = metaData[i]["value"];
+                }
+                dic["image"] = image;
+                dic["name"] = nft?.data?.tokenName;
+                dic["supply"] = nft?.data?.totalSupply;
+                dic["supplier"] = moreData?.data?.from;
+                dic["consumer"] = moreData?.data?.to;
+                dic["tokenId"] = moreData?.data?.tokenid;
+                arr.push(dic);
+              } catch (error) {
+                console.error("Error fetching token info:", error);
+                // Handle the error if needed
+              }
+            }
+            i++;
+          }
+          // Move setNfts outside the loop to update state after all iterations
+          setApprovedNfts(arr);
+        }
+      } catch (error) {
+        console.error(error, "====error");
+      }
+    };
+
     fetchData("GetPendingProposals", {
+      value: account,
+    });
+    fetchData2("GetApprovedProposals", {
       value: account,
     });
   }, [tokenContract, account, nfts]);
@@ -197,6 +264,66 @@ function PendingBy({ provider, account }) {
           NFTs ready to be sent out
         </Typography>
       </div>
+
+      {approvedNfts.length === 0 ? (
+        <div className="flex gap-3 mb-[20px] items-center justify-center">
+          <p>Pending....</p>
+          <FaSpinner className="animate-spin w-[25px] h-[25px]" />
+        </div>
+      ) : (
+        <Container sx={{ py: 8 }} maxWidth="md">
+          <Grid container spacing={4}>
+            {approvedNfts?.map((card, ind) => (
+              <Grid item xs={12} sm={6} md={4} key={ind}>
+                <Card
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <CardMedia
+                    component="div"
+                    sx={{
+                      // 16:9
+                      pt: "56.25%",
+                    }}
+                    image={card["image"]}
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography gutterBottom variant="p" component="p">
+                      Name: {card["name"]}
+                    </Typography>
+                    <Typography gutterBottom variant="p" component="p">
+                      Supply: {card["supply"]}
+                    </Typography>
+                    <Typography gutterBottom variant="p" component="p">
+                      Country Of Origin: {card["Country of Origin"]}
+                    </Typography>
+                    <Typography gutterBottom variant="p" component="p">
+                      Manufactured Date: {card["Manufactured Date"]}
+                    </Typography>
+                    <Typography gutterBottom variant="p" component="p">
+                      Expiry Date: {card["Expiry Date"]}
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width:"100%"
+                      }}
+                    >
+                      Send NFT
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      )}
 
       <Footer />
     </div>
