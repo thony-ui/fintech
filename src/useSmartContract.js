@@ -14,7 +14,8 @@ function useSmartContract({provider}) {
         console.log(chain, "====chain")
         if (!chain) throw new Error("No chain");
 
-        const address = "RZBrwaxtQwtxy6RD77GoZzNx1XRMwHFfCNqYbEiSr4akQTUjd";
+        // const address = "RZBrwaxtQwtxy6RD77GoZzNx1XRMwHFfCNqYbEiSr4akQTUjd"; 
+        const address = "q9nzYpZtqob8Q3yMHNKrqq8aYrkBNv9D8crasSurWThAYNwR3";  // new contract
 
         // 2. get the character contract
         const Contract = chain?.getContract(address);

@@ -19,6 +19,16 @@ import { logIn } from "../store/userSlice";
 import { selectUser } from "../store/userSlice";
 import SearchProduct  from "../components/SearchProduct"
 
+async function testAPI() {
+  try {
+    const response = await fetch("/api/proxy?id=TRUSTCHAINSUPPLYCHAIN-2");
+    const movies = await response.json();
+    console.log(movies);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
+
 
 export default function Home() {
 
