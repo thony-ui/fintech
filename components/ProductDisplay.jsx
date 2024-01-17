@@ -14,10 +14,13 @@ import { IPortkeyProvider, MethodsBase } from "@portkey/provider-types";
 import Link from '@mui/material/Link';
 import { useRouter } from "next/router";
 import TransactionDisplay from "./TransactionDisplay";
+import Table from "./Table"
 
 function ProductDisplay({ id }) {
+  
   const router = useRouter()
   const [provider, setProvider] = useState(null);
+  const [transactionInformationList, setTransactionInformationList] = useState([]);
   const dic = {};
   const init = async () => {
     try {
@@ -74,6 +77,34 @@ function ProductDisplay({ id }) {
   }
   // console.log(dic);
   // console.log(imgUrl);
+
+
+  let transactionList
+
+  useEffect(() => {
+    async function getTransactionList() {
+      try {
+        const response = await fetch(`/api/proxy?id=${id}`);
+        transactionList = await response.json();
+        console.log(transactionList);
+
+        setTransactionInformationList(
+          transactionList.data.list.map(l => {
+            return {
+              "id": l.id,
+              "addressFrom": l.addressFrom,
+              "addressTo": l.addressTo,
+              "time": l.time.slice(0, 10)
+            }
+          })
+        )
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    getTransactionList()
+  }, [])
   return (
     <>
       <Grid
@@ -159,7 +190,7 @@ function ProductDisplay({ id }) {
           </Card>
         </Grid>
       </Grid>
-      <TransactionDisplay id={id}/>
+      <Table data = {transactionInformationList}/>
     </>
   );
 }
