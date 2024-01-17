@@ -14,13 +14,13 @@ const DynamicTable = ({ data }) => {
         <TableHead>
           <TableRow>
             {/* Assuming each object in data has keys representing column names */}
-            {Object.keys(data[0]).map((column, index) => (
+            {data[0] && Object.keys(data[0]).map((column, index) => (
               <TableCell key={index}>{column}</TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row, rowIndex) => (
+          {data[0] && data.map((row, rowIndex) => (
             <TableRow key={rowIndex}>
               {Object.values(row).map((cell, cellIndex) => (
                 <TableCell key={cellIndex}>{cell}</TableCell>
