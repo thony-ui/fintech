@@ -61,19 +61,19 @@ function ProductDisplay({ id }) {
       // Cleanup logic (if needed)
     };
   }, [tokenContract]);
-  console.log(imgUrl);
+  // console.log(imgUrl);
   const metaData = imgUrl?.data?.externalInfo?.value?.__nft_metadata;
   if (metaData) {
     const newMetaData = JSON.parse(
       imgUrl?.data?.externalInfo?.value?.__nft_metadata
     );
-    console.log(newMetaData);
+    // console.log(newMetaData);
     for (let i = 0; i < newMetaData.length; i++) {
       dic[newMetaData[i]["key"]] = newMetaData[i]["value"];
     }
   }
-  console.log(dic);
-  console.log(imgUrl);
+  // console.log(dic);
+  // console.log(imgUrl);
   return (
     <>
       <Grid
@@ -159,7 +159,7 @@ function ProductDisplay({ id }) {
           </Card>
         </Grid>
       </Grid>
-      <TransactionDisplay />
+      <TransactionDisplay id={id}/>
     </>
   );
 }
