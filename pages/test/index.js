@@ -31,7 +31,13 @@ function App() {
 
   return (
     <>
-      <Send provider={provider} chainId="tDVW" symbol="TRUSTCHAINSUPPLYCHAIN-6"/>
+      <Send 
+        provider={provider} 
+        chainId="tDVW" 
+        symbol="TRUSTCHAINSUPPLYCHAIN-3" 
+        fromAddress="ELF_2vD3etVrDHrYd79zKREyaY8UrgZFCSjxP5tVTSLcyYpDmg5DLn_tDVW"
+        toAddress="ELF_xN3CQBD4gEX2zrdaWD7c3nEUwqxM28zLg41AanW26Mb84vhnQ_tDVW"
+      />
       <button onClick={connect}>Connect</button>
       <SmartContract provider={provider} />
     </>
