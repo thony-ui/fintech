@@ -84,6 +84,7 @@ function ProductDisplay({ id }) {
   useEffect(() => {
     async function getTransactionList() {
       try {
+        
         const response = await fetch(`/api/proxy?id=${id}`);
         transactionList = await response.json();
         console.log(transactionList);
@@ -104,7 +105,7 @@ function ProductDisplay({ id }) {
     }
 
     getTransactionList()
-  }, [])
+  }, [id])
   return (
     <>
       <Grid
