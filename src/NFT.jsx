@@ -71,6 +71,8 @@ function Nft({ provider, chainId, symbol }) {
             owner: accounts?.[chainId]?.[0],
           });
           if (i == 7 || i == 8) {
+            i += 1
+            //w
             continue
           }
           if (result2?.data == null) {
