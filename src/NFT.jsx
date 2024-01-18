@@ -70,6 +70,9 @@ function Nft({ provider, chainId, symbol }) {
             symbol: "TRUSTCHAINSUPPLYCHAIN-" + i,
             owner: accounts?.[chainId]?.[0],
           });
+          if (i == 7 || i == 8) {
+            continue
+          }
           if (result2?.data == null) {
             break;
           }
